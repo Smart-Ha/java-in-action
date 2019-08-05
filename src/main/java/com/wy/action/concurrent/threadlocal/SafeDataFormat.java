@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
  * @Author wangyong
  * @Date 2019-06-22
  */
-public class SafeDataFomat {
+public class SafeDataFormat {
 
     private static final ThreadLocal<DateFormat> tl = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));

@@ -1,0 +1,23 @@
+version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'maven'
+sourceCompatibility = 1.8
+
+
+repositories {
+    maven { url 'http://repo.spring.io/milestone' }
+    mavenLocal()
+    mavenCentral()
+
+}
+
+
+dependencies {
+
+    // 因为程序中需要读取doc文件所以这里通过gradle导入POI的jar包
+    compile group: 'org.apache.poi', name: 'poi', version: '3.15'
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '28.0-jre'
+    compile group: 'junit', name: 'junit', version: '4.11'
+
+}
