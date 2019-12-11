@@ -23,7 +23,7 @@ public class PackApp {
     }
 
     private void find(int currentW, int i, int w, int[] items, int currentN, int n) {
-        if (i >= items.length || currentW == w || currentN == n) {
+        if (i >= items.length || currentW >= w || currentN >= n) {
             if (currentW > max) {
                 max = currentW;
             }
