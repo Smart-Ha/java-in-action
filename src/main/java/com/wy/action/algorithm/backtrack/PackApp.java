@@ -10,7 +10,7 @@ import org.junit.Test;
 public class PackApp {
 
     int max = Integer.MIN_VALUE;
-
+    int maxValue = Integer.MIN_VALUE;
     /**
      * 0-1背包问题，背包的总承重w，现在有m个物体，重量不等，且不可分割，选择n件物品，在不超过最大承重的情况下，重量达到最大
      *
@@ -38,9 +38,36 @@ public class PackApp {
         }
     }
 
+    /**
+     * 在不超过背包重量的情况下，求装的最多的价值
+     * @param w
+     * @param items
+     * @return
+     */
+    public int getValueMax(int w,int[] items, int[] itemValues) {
+        maxValue = Integer.MIN_VALUE;
+        find2(0,0,0,w, items, itemValues);
+        return maxValue;
+    }
+
+    public void find2(int i, int currentW, int currentVal,int w, int[] items, int itemValues[]) {
+        if (currentW == w || i == items.length) {
+            if (currentVal > maxValue) {
+                maxValue = currentVal;
+            }
+            return;
+        }
+        find2(i+1, currentW, currentVal, w, items,itemValues);//不选这个物品
+        if (currentW + items[i] <= w) {
+            find2(i+1,currentW + items[i], currentVal + itemValues[i], w, items, itemValues);
+        }
+    }
+
     @Test
     public void test() {
         int[] items = {2,3,4,6,8,9,10};
+        int[] itemValues = {3,3,4,6,4,2,3};
         System.out.println(getMax(32,items, 4));
+        System.out.println(getValueMax(14, items, itemValues));
     }
 }
