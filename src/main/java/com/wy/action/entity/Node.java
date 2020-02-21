@@ -18,4 +18,6 @@ public class Node<E> {
         this.value = value;
         this.next = next;
     }
+
 }
+
