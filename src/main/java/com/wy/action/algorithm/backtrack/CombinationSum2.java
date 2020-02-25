@@ -10,8 +10,6 @@ import java.util.*;
  * @Date 2020-02-25
  */
 public class CombinationSum2 {
-
-    private Set<String> candisSet = new HashSet<>();
     /**
      * 给定一组数， 找出所有想加等于目标的组合，每个组合不能重复
      * @param candidates
@@ -21,35 +19,29 @@ public class CombinationSum2 {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         Arrays.sort(candidates);
         List<List<Integer>> result = new ArrayList<>();
-        combinationSum(candidates, result, target, "",0,0);
+        combinationSum(candidates, result, target, new ArrayList<>(),0,0);
         return result;
     }
 
-    private void combinationSum(int[] candidates, List<List<Integer>> result, int target,String canStr, int sum, int i) {
+    private void combinationSum(int[] candidates, List<List<Integer>> result, int target,List<Integer> one, int sum, int i) {
 
         for (int k=i; k<candidates.length;k++) {
-            if (sum+ candidates[k] == target ) {
-                canStr += ","+candidates[k];
-                if (candisSet.contains(canStr)) {
-                    break;
-                }
-
-                List<Integer> r = new ArrayList<>();
-                for (String can: canStr.substring(1).split(",")) {
-                    r.add(Integer.parseInt(can));
-                }
-                candisSet.add(canStr);
-                result.add(r);
-                break;
-
-            } else if(sum+ candidates[k] < target){
-                String newCanStr = canStr+","+candidates[k];
-                combinationSum(candidates,result, target,  newCanStr, sum+ candidates[k],k+1);
-            } else {
+            if(sum+ candidates[k] > target) {
                 break;
             }
+            if (k-1>=i && candidates[k] == candidates[k-1]) {
+                continue;
+            }
+           if(sum+ candidates[k] < target){
+                List<Integer> newOne =  new ArrayList<>(one);
+                newOne.add(candidates[k]);
+                combinationSum(candidates,result, target,  newOne, sum+ candidates[k],k+1);
+            } else   if (sum+ candidates[k] == target ) {
+                one.add(candidates[k]);
+                result.add(one);
+                break;
 
-
+            }
         }
     }
 
