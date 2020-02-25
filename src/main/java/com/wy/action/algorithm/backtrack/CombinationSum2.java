@@ -36,7 +36,7 @@ public class CombinationSum2 {
                 List<Integer> newOne =  new ArrayList<>(one);
                 newOne.add(candidates[k]);
                 combinationSum(candidates,result, target,  newOne, sum+ candidates[k],k+1);
-            } else   if (sum+ candidates[k] == target ) {
+            } else  {
                 one.add(candidates[k]);
                 result.add(one);
                 break;
