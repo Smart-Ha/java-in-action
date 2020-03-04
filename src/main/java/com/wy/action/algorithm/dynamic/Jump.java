@@ -17,24 +17,33 @@ public class Jump {
      * Output: 2
      */
     public int jump(int[] nums) {
-        int len = nums.length-1;
-        int index = -1;
-        int p = nums.length-1;
-        int count = 0;
-        while (len>0) {
-            int max = 0;
-            for (int i=p;i>=0 ;i--) {
-                if (nums[i] >= p-i && max <= p-i) {
-                    max = p-i;
-                    index = i;
+        int position = nums.length - 1;
+        int steps = 0;
+        while (position != 0) {
+            for (int i = 0; i < position; i++) {
+                if (nums[i] >= position - i) {
+                    position = i;
+                    steps++;
+                    break;
                 }
             }
-            len -= max;//减去最后的长度
-            count++;
-            p = index;
         }
+        return steps;
+    }
 
-        return count;
+    public int jump2(int[] nums) {
+        int jump = 0;
+        int cEnd = 0;
+        int cFarthest = 0;
+        for(int i=0; i<nums.length; i++) {
+            // i=cBegin 到cEnd = i+num[i] 直接来寻找跳的最远的，调整cEnd
+            cFarthest = Math.max(cFarthest, i+nums[i]);
+            if (i == cEnd) {
+                jump++;
+                cEnd = cFarthest;
+            }
+        }
+        return jump;
     }
 
     @Test
