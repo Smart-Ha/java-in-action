@@ -3,6 +3,10 @@ package com.wy.action.algorithm.backtrack;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @Author wangyong
  * @Date 2020-02-27
@@ -56,5 +60,24 @@ public class Match {
         Assert.assertEquals(false, isMatch("cb", "?a"));
         Assert.assertEquals(true, isMatch("ho", "ho**"));
         Assert.assertEquals(false, isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba", "a*******b"));
+    }
+
+    @Test
+    public void t1() {
+
+       for(int i=0;i<10000;i++) {
+           List<Integer> weeklyFreeRoleIds = new ArrayList<>();
+           weeklyFreeRoleIds.add(1);
+           weeklyFreeRoleIds.add(2);
+           weeklyFreeRoleIds.add(3);
+           weeklyFreeRoleIds.add(4);
+           List<Integer> weeklyVipFreeRoleIds = new ArrayList<>();
+           weeklyVipFreeRoleIds.add(11);
+           weeklyVipFreeRoleIds.add(12);
+           Collections.shuffle(weeklyFreeRoleIds);
+           Collections.shuffle(weeklyVipFreeRoleIds);
+           System.out.println("free: "+ weeklyFreeRoleIds.get(0) +"   vip: "+weeklyVipFreeRoleIds.get(0));
+
+       }
     }
 }
