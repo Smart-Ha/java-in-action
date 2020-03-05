@@ -3,8 +3,9 @@ package com.wy.action.algorithm;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author wangyong
@@ -98,7 +99,7 @@ public class MathApp {
     }
 
     @Test
-    public void testTraap() {
+    public void testTrap() {
         Assert.assertEquals(6, trap(new int[]{0,1,0,2,1,0,1,3,2,1,2,1}));
         Assert.assertEquals(3, trap(new int[]{2,1,0,2}));
         Assert.assertEquals(14, trap(new int[]{5,2,1,2,1,5}));
@@ -143,5 +144,45 @@ public class MathApp {
         Assert.assertEquals("56088", multiply("123", "456"));
         Assert.assertEquals("121932631112635269", multiply("123456789", "987654321"));
         System.out.println(Long.MAX_VALUE);
+    }
+
+    /**
+     * https://leetcode.com/problems/permutations-ii/
+     * 求给出一组数的不重复排列组合
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        permute(result,  new ArrayList<>(),Arrays.stream(nums).boxed().collect(Collectors.toList()));
+        return result;
+    }
+
+    private void permute(List<List<Integer>> result,
+                         List<Integer> going, List<Integer> left) {
+        if (left.size() ==0) {
+            result.add(going);
+            return;
+        }
+
+        Set<Integer> set = new HashSet<>();
+        for (int j=0; j<left.size(); j++) {//第index位,n种情况
+            if (set.contains(left.get(j))) {// 相同的元素就不考虑了
+                continue;
+            }
+
+            set.add(left.get(j));
+            List<Integer> one = new ArrayList<>(going);
+            List<Integer> leftOne = new ArrayList<>(left);
+            leftOne.remove(j);
+            one.add(left.get(j));
+            permute(result,  one, leftOne);
+        }
+    }
+
+    @Test
+    public void testPermuteUnique () {
+        int[] arr = {1,1,2};
+        System.out.println(permuteUnique(arr));
     }
 }

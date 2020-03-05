@@ -10,6 +10,7 @@ import org.junit.Test;
 public class Jump {
 
     /**
+     * https://leetcode.com/problems/jump-game-ii/
      * 给定一个非负整数数组，您最初位于该数组的第一个索引处。
      * 数组中的每个元素代表该位置的最大跳转长度。
      * 您的目标是在最少的跳数中达到最后的索引。
@@ -50,4 +51,7 @@ public class Jump {
     public void  test2() {
         Assert.assertEquals(2,jump(new int[]{2,3,1,1,4}));
     }
+
+
+
 }
