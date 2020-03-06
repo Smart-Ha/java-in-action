@@ -146,43 +146,5 @@ public class MathApp {
         System.out.println(Long.MAX_VALUE);
     }
 
-    /**
-     * https://leetcode.com/problems/permutations-ii/
-     * 求给出一组数的不重复排列组合
-     * @param nums
-     * @return
-     */
-    public List<List<Integer>> permuteUnique(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        permute(result,  new ArrayList<>(),Arrays.stream(nums).boxed().collect(Collectors.toList()));
-        return result;
-    }
 
-    private void permute(List<List<Integer>> result,
-                         List<Integer> going, List<Integer> left) {
-        if (left.size() ==0) {
-            result.add(going);
-            return;
-        }
-
-        Set<Integer> set = new HashSet<>();
-        for (int j=0; j<left.size(); j++) {//第index位,n种情况
-            if (set.contains(left.get(j))) {// 相同的元素就不考虑了
-                continue;
-            }
-
-            set.add(left.get(j));
-            List<Integer> one = new ArrayList<>(going);
-            List<Integer> leftOne = new ArrayList<>(left);
-            leftOne.remove(j);
-            one.add(left.get(j));
-            permute(result,  one, leftOne);
-        }
-    }
-
-    @Test
-    public void testPermuteUnique () {
-        int[] arr = {1,1,2};
-        System.out.println(permuteUnique(arr));
-    }
 }
