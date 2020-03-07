@@ -3,10 +3,8 @@ package com.wy.action.algorithm;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * @Author wangyong
@@ -163,6 +161,30 @@ public class StringApp {
 
          Assert.assertEquals(true, isValidSudoku(one));
          Assert.assertEquals(false, isValidSudoku(two));
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for(int i=0;i<strs.length;i++) {
+            int[] arr = new int[26];
+            for( int j=0;j<strs[i].length(); j++) {
+                arr[strs[i].charAt(j)-'a'] ++;
+            }
+            String key = Arrays.toString(arr);
+            List<String> one = map.get(key);
+            if (one == null) {
+                one = new ArrayList<>();
+            }
+            one.add(strs[i]);
+            map.put(key, one);
+        }
+        return new ArrayList<>(map.values());
+    }
+
+    @Test
+    public void test() {
+        String[] arr = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println(groupAnagrams(arr));
     }
 
 }

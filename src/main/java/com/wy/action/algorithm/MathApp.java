@@ -146,5 +146,31 @@ public class MathApp {
         System.out.println(Long.MAX_VALUE);
     }
 
+    /**
+     * 实现x的n次方
+     * https://leetcode.com/problems/powx-n/
+     * @param x
+     * @param n
+     * @return
+     */
+    public double power(double x, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if(n == Integer.MIN_VALUE) {//处理边界情况
+            x = x * x;
+            n = n/2;
+        }
 
+        if (n<0) {
+            x = 1/x;
+            n = -n;
+        }
+        return  n%2==0? power(x*x, n/2) : x*power(x*x, n/2);
+    }
+
+    @Test
+    public void powerTest(){
+        System.out.println(power(2.10000, 3));
+    }
 }
