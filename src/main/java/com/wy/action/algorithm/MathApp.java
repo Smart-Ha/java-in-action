@@ -3,9 +3,8 @@ package com.wy.action.algorithm;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author wangyong
@@ -196,5 +195,77 @@ public class MathApp {
     @Test
     public void testMaxSubArray() {
         System.out.println(maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
+    }
+
+    /**
+     * 给一个二维数组，螺旋输出
+     * https://leetcode.com/problems/spiral-matrix/
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> list = new ArrayList<>();
+        int rowS=0, rowE = matrix.length ;
+        int colS=0, colE =  matrix[0].length;
+        int t = rowE*colE;
+        int i = 0,j=0;
+        while (list.size() < t) {
+            // left- right
+            while ( j<colE) {
+                list.add(matrix[i][j]);
+                j++;
+            }
+            if (list.size() == t) {
+                return list;
+            }
+            j--;
+            i++;
+            rowS++;//行+1
+            // right - down
+            while ( i<rowE) {
+                list.add(matrix[i][j]);
+                i++;
+            }
+            if (list.size() == t) {
+                return list;
+            }
+            i--;
+            j--;
+            colE--;//列-1
+            // right - left
+            while (j>=colS) {
+                list.add(matrix[i][j]);
+                j--;
+            }
+            if (list.size() == t) {
+                return list;
+            }
+            j++;
+            i--;
+            rowE--;//
+            // left - up
+            while (i>=rowS ) {
+                list.add(matrix[i][j]);
+                i--;
+            }
+            if (list.size() == t) {
+                return list;
+            }
+            i++;
+            j++;
+            colS++;
+        }
+        return list;
+    }
+
+    @Test
+    public void  spiralOrderTest() {
+        int[][] arr = {{1,2,3,4},
+                {5,6,7,8},
+                {9,10,11,12}
+//                , {13,14,15,16}
+        };
+        System.out.println(spiralOrder(arr));
+
     }
 }
