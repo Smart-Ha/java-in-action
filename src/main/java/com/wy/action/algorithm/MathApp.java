@@ -3,7 +3,9 @@ package com.wy.action.algorithm;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -267,5 +269,42 @@ public class MathApp {
         };
         System.out.println(spiralOrder(arr));
 
+    }
+
+    /**
+     * https://leetcode.com/problems/merge-intervals/submissions/
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length <=1 ) {
+            return intervals;
+        }
+        //排序,
+        Arrays.sort(intervals, (o1,o2)-> {
+            return Integer.compare(o1[0], o2[0]);
+        });
+        List<int[]> result = new ArrayList<>();
+        int[] one = intervals[0];
+        result.add(one);
+        for (int i=0; i<intervals.length; i++) {
+            if (intervals[i][0]<= one[1] ) {// 有交叉
+                one[1] = Math.max(one[1],intervals[i][1]);
+
+            } else {
+                one = intervals[i];
+                result.add(one);
+            }
+        }
+        return result.toArray(new int[result.size()][]);
+    }
+
+    @Test
+    public void mergeTest() {
+        int[][] arr = {
+                {1,4},
+                {2,3}
+        };
+        System.out.println(merge(arr));
     }
 }

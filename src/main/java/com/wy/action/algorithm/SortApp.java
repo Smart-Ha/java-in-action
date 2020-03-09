@@ -56,7 +56,7 @@ public class SortApp {
     }
 
     /**
-     * 插入排序，分为排序区间和未排序区间，从未排序区间中找到最小元素，插入到已排序区间的末尾
+     * 选择排序，分为排序区间和未排序区间，从未排序区间中找到最小元素，插入到已排序区间的末尾
      * @param arr
      */
     public void selectInsert(int[] arr) {
