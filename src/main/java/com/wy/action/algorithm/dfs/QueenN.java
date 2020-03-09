@@ -75,4 +75,6 @@ public class QueenN {
     public void test() {
         System.out.println(solveNQueens(4));
     }
+
+
 }

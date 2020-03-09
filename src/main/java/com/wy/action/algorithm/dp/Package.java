@@ -1,4 +1,4 @@
-package com.wy.action.algorithm.dynamic;
+package com.wy.action.algorithm.dp;
 
 import com.wy.action.util.Print;
 import org.junit.Test;

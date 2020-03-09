@@ -173,4 +173,28 @@ public class MathApp {
     public void powerTest(){
         System.out.println(power(2.10000, 3));
     }
+
+    /**
+     * 找出一个数组，连续子数组的和最大值
+     * https://leetcode.com/problems/maximum-subarray/
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        /**
+         * 计算i前面的累加值maxCurr和当前nums[i], 哪个大赋予maxCurr
+         * 比较maxCurr和max，取较大的值
+         */
+        int max = nums[0],maxCurr = nums[0];
+        for (int i=1; i<nums.length; i++) {
+            maxCurr = Math.max(maxCurr+nums[i], nums[i]);
+            max = Math.max(maxCurr, max);
+        }
+        return max;
+    }
+
+    @Test
+    public void testMaxSubArray() {
+        System.out.println(maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
+    }
 }
