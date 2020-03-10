@@ -1,5 +1,6 @@
 package com.wy.action.algorithm;
 
+import com.wy.action.util.Print;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -306,5 +307,66 @@ public class MathApp {
                 {2,3}
         };
         System.out.println(merge(arr));
+    }
+
+    /**
+     * 一组没有交叉覆盖的数组端，给一个数组段，插入到原来的数组序列中，并合并
+     * https://leetcode.com/problems/insert-interval/
+     * @param intervals [[1,2],[3,5],[6,7],[8,10],[12,16]]
+     * @param newInterval [4,8]
+     * @return [[1,2],[3,10],[12,16]]
+     */
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        if(intervals.length == 0) {
+            intervals =  new int[1][2];
+            intervals[0] = newInterval;
+            return intervals;
+        }
+        List<int[]> result = new ArrayList<>();
+        int index = intervals.length;
+        for (int i=0; i<intervals.length; i++) {
+            if (newInterval[1] < intervals[i][0]) {// 插在最前面
+                // 剩余的添加到list中
+                index = i;
+                break;
+            } else if (newInterval[0] <= intervals[i][0] ){// 新的第一个数在前面
+                if(newInterval[1] <= intervals[i][1]) {// 中间有交叉
+                    newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+                    newInterval[1] = intervals[i][1];
+                    index = i+1;
+                    break;
+                } else {//新的包含原来的
+                    index = i+1;
+                    continue;
+                }
+            } else if (newInterval[0] <= intervals[i][1] ){// 新的第一个数在右边 有交叉
+                if (newInterval[1] <= intervals[i][1]) {// 旧的包含新的
+                    newInterval[0] = intervals[i][0];
+                    newInterval[1] = intervals[i][1];
+                    index = i+1;
+                    break;
+                } else {//
+                    newInterval[0] = intervals[i][0];
+                    index = i+1;
+                }
+            } else  {
+                result.add(intervals[i]);
+            }
+        }
+
+        result.add(newInterval);
+        for(int i=index; i<intervals.length;i++) {
+            result.add(intervals[i]);
+        }
+        return result.toArray(new int[result.size()][2]);
+    }
+
+    @Test
+    public void insertTest() {
+//        insert(new int[][]{{1,3},{6,9}}, new int[] {2,5});
+//        Print.print(insert(new int[][]{{1,5}}, new int[] {2,3}));
+//        Print.print(insert(new int[][]{{1,5}}, new int[] {2,7}));
+        Print.print(insert(new int[][]{{1,5}}, new int[] {6,8}));
+        Print.print(insert(new int[][]{{1,2},{3,5},{6,7},{8,10},{12,16}}, new int[] {4,8}));
     }
 }
