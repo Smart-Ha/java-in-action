@@ -5,9 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author wangyong
@@ -299,5 +297,44 @@ public class MathApp {
 //        Print.print(insert(new int[][]{{1,5}}, new int[] {2,7}));
         Print.print(insert(new int[][]{{1,5}}, new int[] {6,8}));
         Print.print(insert(new int[][]{{1,2},{3,5},{6,7},{8,10},{12,16}}, new int[] {4,8}));
+    }
+
+    /**
+     * 求n的全排列中第k个值
+     * @param n
+     * @param k
+     * @return
+     */
+    public String getPermutation(int n, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0,1);
+        List<Integer> list = new ArrayList<>();
+        for(int i=1; i<=n; i++) {
+            map.put(i, i*map.get(i-1));
+            list.add(i);
+        }
+
+        int num = 0;
+        int one ;
+        StringBuilder sb = new StringBuilder();
+        while (!list.isEmpty()) {
+            if( n== 1){
+                sb.append(list.remove(0));
+                break;
+            }
+            num = map.get(n-1);
+            one = k==0? 0 : (k-1)/num;
+            sb.append(list.remove(one));
+            k = k- one*num;
+            n--;
+        }
+        return sb.toString();
+    }
+
+    @Test
+    public void getPermutationTest() {
+        Assert.assertEquals("132", getPermutation(3,2));
+        Assert.assertEquals("213", getPermutation(3,3));
+        Assert.assertEquals("2314", getPermutation(4,9));
     }
 }
