@@ -163,6 +163,11 @@ public class StringApp {
          Assert.assertEquals(false, isValidSudoku(two));
     }
 
+    /**
+     * 对包含相同字符的字符串分组
+     * @param strs
+     * @return
+     */
     public List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
         for(int i=0;i<strs.length;i++) {
@@ -187,4 +192,33 @@ public class StringApp {
         System.out.println(groupAnagrams(arr));
     }
 
+    /**
+     * 求最后一个单词的长度
+     *https://leetcode.com/problems/length-of-last-word/
+     */
+    public int lengthOfLastWord(String str) {
+        int len = str.length();
+        for(int i=len-1; i>=0;i--) {
+            if (str.charAt(i)==' ') {
+                len--;
+            } else {
+                break;
+            }
+        }
+        str = str.substring(0, len);
+        int index = str.lastIndexOf(" ");
+        return str.length()-index-1;
+    }
+
+    @Test
+    public void lengthOfLastWordTest() {
+//        Assert.assertEquals(5, lengthOfLastWord("hello world"));
+//        Assert.assertEquals(1, lengthOfLastWord("a "));
+//        Assert.assertEquals(1, lengthOfLastWord("b   a    "));
+        Random random = new Random();
+        for(int i=0; i<100; i++) {
+
+            System.out.println(random.nextFloat());;
+        }
+    }
 }
