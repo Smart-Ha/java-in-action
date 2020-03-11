@@ -1,5 +1,6 @@
 package com.wy.action.algorithm.link;
 
+import com.wy.action.entity.ListNode;
 import com.wy.action.entity.Node;
 import org.junit.Test;
 
@@ -62,5 +63,40 @@ public class LinkedApp {
             pre = n;
         }
         System.out.println(palindrome(head));
+    }
+
+    /**
+     * 向右循环移动k次链表
+     *https://leetcode.com/problems/rotate-list/
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head ==null || head.next ==null || k==0) {
+            return head;
+        }
+        ListNode node = head;
+        ListNode tail = null;
+        int n=1;
+        while (node.next != null) {
+            n++;
+            node = node.next;
+        }
+        tail = node;
+        k= k%n;
+        if(k==0) {
+            return head;
+        }
+        int i=1;
+        node = head;
+        while (i<n-k) {
+            node = node.next;
+            i++;
+        }
+        ListNode newHead = node.next;
+        node.next = null;
+        tail.next = head;
+        return newHead;
     }
 }
