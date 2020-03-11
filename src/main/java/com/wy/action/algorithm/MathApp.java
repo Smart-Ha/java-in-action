@@ -306,11 +306,11 @@ public class MathApp {
      * @return
      */
     public String getPermutation(int n, int k) {
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(0,1);
+        int[] arr = new int[n+1];
         List<Integer> list = new ArrayList<>();
+        arr[0] = 1;
         for(int i=1; i<=n; i++) {
-            map.put(i, i*map.get(i-1));
+            arr[i] = i* arr[i-1];
             list.add(i);
         }
 
@@ -322,8 +322,8 @@ public class MathApp {
                 sb.append(list.remove(0));
                 break;
             }
-            num = map.get(n-1);
-            one = k==0? 0 : (k-1)/num;
+            num = arr[n-1];
+            one = (k-1)/num;
             sb.append(list.remove(one));
             k = k- one*num;
             n--;
