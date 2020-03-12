@@ -221,4 +221,82 @@ public class StringApp {
             System.out.println(random.nextFloat());;
         }
     }
+
+    /**
+     * 必要时请添加多余的空格''，以使每行都具有完全maxWidth个字符。
+     * https://leetcode.com/problems/text-justification/
+     * @param words
+     * @param maxWidth
+     * @return
+     */
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        int start=0,  end=0;
+        int sum = 0;
+        int blank, extra ,addB;
+        List<String> result = new ArrayList<>();
+        for(int i=0; i< words.length;i++){
+            end = i;
+            if (sum + words[i].length() + (end-start) > maxWidth) {
+                //超过了长度, maxWidth-单词的长度，然后在均分空格
+                end--;
+                if (end-start == 0) {
+                    blank = maxWidth - words[i].length();
+                    extra = 0;
+                } else {
+                    blank = (maxWidth - sum)/(end-start);
+                    extra = (maxWidth - sum)%(end-start);
+                }
+
+                StringBuilder sb = new StringBuilder();
+                for(int j=start; j<=end; j++) {
+                    sb.append(words[j]);
+                    if (j== end) {
+                        extra = 0;
+                        addB = maxWidth-sb.length();
+                    } else {
+                        addB = blank;
+                    }
+
+                    if(extra>0) {
+                        addB++;
+                        extra--;
+                    }
+                    while (addB-- > 0 ){
+                        sb.append(" ");
+                    }
+                }
+                result.add(sb.toString());
+                start = i;
+                end = i;
+                sum = words[i].length();
+            } else {
+                sum += words[i].length();
+
+            }
+        }
+        if (end ==words.length-1) {
+            StringBuilder sb = new StringBuilder();
+            for(int j=start; j<=end; j++) {
+                sb.append(words[j]);
+                if (j== end) continue;
+                sb.append(" ");
+            }
+            while (maxWidth - sb.length()>0) {
+                sb.append(" ");
+            }
+            result.add(sb.toString());
+        }
+        return result;
+    }
+    @Test
+    public void fullJustifyTest() {
+        System.out.println(fullJustify(new String[]{
+                "This", "is", "an", "example", "of", "text", "justification."}, 16));
+        System.out.println(fullJustify(new String[]{
+                "What","must","be","acknowledgment","shall","be"}, 16));
+        System.out.println(fullJustify(new String[]{
+                "Science","is","what","we","understand","well","enough","to","explain",
+                "to","a","computer.","Art","is","everything","else","we","do"}, 20));
+    }
+
 }

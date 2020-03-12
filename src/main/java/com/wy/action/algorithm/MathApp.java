@@ -389,4 +389,32 @@ public class MathApp {
         }
         return sb.reverse().toString();
     }
+
+    public int mySqrt(int x) {
+        if (x <= 1) {
+            return 0;
+        }
+        int start=1,end = x;
+        int mid ;
+        while (true) {
+            mid = (start+end)/2;
+            if(mid * mid > x) {
+                end = mid-1;
+            } else {
+                if((mid +1)*(mid+1) > x) {
+                    return mid;
+                }
+                start = mid+1;
+            }
+
+        }
+    }
+
+    @Test
+    public void mySqrtTest() {
+        Assert.assertEquals(1,mySqrt(2));
+        Assert.assertEquals(8,mySqrt(64));
+        Assert.assertEquals(10,mySqrt(101));
+        Assert.assertEquals(100,mySqrt(10000));
+    }
 }
