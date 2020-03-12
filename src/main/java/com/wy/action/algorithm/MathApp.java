@@ -337,4 +337,56 @@ public class MathApp {
         Assert.assertEquals("213", getPermutation(3,3));
         Assert.assertEquals("2314", getPermutation(4,9));
     }
+
+    /**
+     * 给数组中组合成的数+1
+     * https://leetcode.com/problems/plus-one/
+     * @param digits
+     * @return
+     */
+    public int[] plusOne(int[] digits) {
+        for(int i=digits.length-1; i>=0;i--) {
+            if (digits[i]+1<10) {
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = (digits[i]+1)%10;
+        }
+        int[] newDig = new int[digits.length+1];
+        System.arraycopy(digits, 0, newDig, 1,
+                digits.length);
+        newDig[0] = 1;
+        return newDig;
+    }
+    @Test
+    public void plusOneTest() {
+        Assert.assertEquals(1000, plusOne(new int[] {9,9,9}));
+    }
+
+    /**
+     * 对两个二进制数求和
+     * @param a
+     * @param b
+     * @return
+     */
+    public String addBinary(String a, String b) {
+        int i = a.length()-1, j = b.length()-1;
+        int sum, f=0;
+        StringBuilder sb = new StringBuilder();
+        while (i>=0 || j>=0) {
+            sum = f;
+            if (i>=0) {
+                sum+= a.charAt(i--)-'0';
+            }
+            if(j>=0) {
+                sum += b.charAt(j--)-'0';
+            }
+            sb.append(sum%2);
+            f = sum/2;
+        }
+        if(f==1) {
+            sb.append(f);
+        }
+        return sb.reverse().toString();
+    }
 }
