@@ -1,4 +1,4 @@
-package com.wy.action.algorithm.dfs;
+package com.wy.action.algorithm.dp;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,39 +9,7 @@ import org.junit.Test;
  */
 public class UniquePath {
 
-    /**
-     * 从左上角走到右下角有多少种走法（只能向右或向下）
-     * https://leetcode.com/problems/unique-paths/
-     * @param m 列
-     * @param n 行
-     * @return
-     */
-    int count = 0;
-    public int uniquePaths(int m, int n) {
-        count = 0;
-        dfs(m,n,0,0);
-        return count;
-    }
 
-    /**
-     *
-     * @param m
-     * @param n
-     * @param i
-     * @param j
-     */
-    private void dfs(int m, int n, int i, int j) {
-        if(i==n-1 && j==m-1) {
-            count++;
-            return;
-        }
-        if (i<n) {
-            dfs(m,n,i+1,j);
-        }
-        if (j<m) {
-            dfs(m,n,i,j+1);
-        }
-    }
 
     /**
      * 动态规划算
@@ -68,10 +36,6 @@ public class UniquePath {
     public void test() {
         Assert.assertEquals(3,uniquePaths2(3,2));
         Assert.assertEquals(126,uniquePaths2(5,6));
-        for(int i=1;i<10;i++) {
-            System.out.println(uniquePaths(5,i));
-        }
-
     }
     /**
      * 从左上角走到右下角有多少种走法（只能向右或向下）带有障碍
