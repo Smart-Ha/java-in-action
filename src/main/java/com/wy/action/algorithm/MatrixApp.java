@@ -143,4 +143,53 @@ public class MatrixApp {
     public void generateMatrixTest() {
         Print.print(generateMatrix(4));
     }
+
+
+    /**
+     * https://leetcode.com/problems/set-matrix-zeroes/
+     * 将有0 的行和列设置成0
+     * @param matrix
+     */
+    public void setZeroes(int[][] matrix) {
+        boolean status[][] = new boolean[matrix.length][matrix[0].length];
+
+        for(int i=0; i<matrix.length; i++) {
+            for(int j=0; j<matrix[0].length;j++){
+                if(matrix[i][j] == 0 && !status[i][j]) {
+                    for(int k=0;k<matrix.length;k++) {//列
+                        if (matrix[k][j] != 0) {
+                            matrix[k][j] = 0;
+                            status[k][j] = true;
+                        }
+
+                    }
+                    for(int k=0;k<matrix[0].length;k++) {//行
+                        if (matrix[i][k] != 0) {
+                            matrix[i][k] = 0;
+                            status[i][k] = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void setZeroesTest() {
+        int[][] matrix = {
+                {1,1,1},
+                {1,0,1},
+                {1,1,1}
+        };
+        setZeroes(matrix);
+        Print.print(matrix);
+        int[][] matrix1 = {
+                {0,1,1,0},
+                {3,4,5,2},
+                {1,3,1,5}
+        };
+        setZeroes(matrix1);
+        Print.print(matrix1);
+    }
+
 }
