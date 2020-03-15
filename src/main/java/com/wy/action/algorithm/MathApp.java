@@ -390,31 +390,32 @@ public class MathApp {
         return sb.reverse().toString();
     }
 
-    public int mySqrt(int x) {
-        if (x <= 1) {
-            return 0;
-        }
-        int start=1,end = x;
-        int mid ;
-        while (true) {
-            mid = (start+end)/2;
-            if(mid * mid > x) {
-                end = mid-1;
-            } else {
-                if((mid +1)*(mid+1) > x) {
-                    return mid;
-                }
-                start = mid+1;
+    /**
+     * 将数组中的1，2，0 按0，1，2排序
+     * https://leetcode.com/problems/sort-colors/
+     * @param nums
+     */
+    public void sortColors(int[] nums) {
+        int p1 = 0, p2 = nums.length-1;
+        int i=0;
+        while ( i<=p2) {
+            if (nums[i] == 0){
+                nums[i] = nums[p1];
+                nums[p1++] = 0;
+            } else if (nums[i] == 2) {
+                nums[i] = nums[p2];
+                nums[p2] = 2;
+                p2--;
+                i--;// 2和后面位置换了之后，仍从当前位置判断
             }
-
+            i++;
         }
     }
 
     @Test
-    public void mySqrtTest() {
-        Assert.assertEquals(1,mySqrt(2));
-        Assert.assertEquals(8,mySqrt(64));
-        Assert.assertEquals(10,mySqrt(101));
-        Assert.assertEquals(100,mySqrt(10000));
+    public void sortColorsTest() {
+        int[] arr = {2,0,1,2,0,1,1,2};
+        sortColors(arr);
+        Print.print(arr);
     }
 }
