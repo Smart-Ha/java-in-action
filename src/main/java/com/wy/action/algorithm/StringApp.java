@@ -299,4 +299,61 @@ public class StringApp {
                 "to","a","computer.","Art","is","everything","else","we","do"}, 20));
     }
 
+    /**
+     * 求包含字符串t的，s的最小子串
+     * https://leetcode.com/problems/minimum-window-substring/
+     * @param s
+     * @param t
+     * @retu
+     */
+    public String minWindow(String s, String t) {
+        Map<Character, Integer> map = new HashMap<>(t.length());
+        char c;
+        for(int i=0; i<t.length(); i++){
+            c = t.charAt(i);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c)+1);
+            }else {
+                map.put(c, 1);
+            }
+        }
+        int left=0, minLeft=0;
+        int count=0, minLen = s.length()+1;
+        for (int i=0; i<s.length(); i++) {
+            c = s.charAt(i);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c)-1);
+
+                if (map.get(c) >= 0 ) {
+                    count++;
+                }
+
+                while (count == t.length()) {// 窗口移动，比较最小值
+                    if (i -left +1 < minLen) {
+                        minLeft = left;
+                        minLen =  i - left+1;
+                    }
+                    if (map.containsKey(s.charAt(left))) {// 修改left的值
+                        map.put(s.charAt(left), map.get(s.charAt(left))+1);//使移动抛弃的left+1>=0, 使count可以增加
+                        if (map.get(s.charAt(left))>0) {// 去掉重复的值
+                            count--;
+                        }
+                    }
+                    left++;
+
+                }
+
+            }
+        }
+        if (minLen > s.length()) {
+            return "";
+        }
+        return s.substring(minLeft, minLeft+minLen);
+    }
+
+    @Test
+    public void minWindowTest() {
+        Assert.assertEquals("BANC", minWindow("ADOBECODEBANC","ABC"));
+    }
+
 }
