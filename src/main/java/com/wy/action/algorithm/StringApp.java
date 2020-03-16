@@ -356,4 +356,81 @@ public class StringApp {
         Assert.assertEquals("BANC", minWindow("ADOBECODEBANC","ABC"));
     }
 
+    /**
+     * 检查单词在数组中是否存在（必须是连续的）
+     * https://leetcode.com/problems/word-search/
+     * @param board
+     * @param word
+     * @return
+     */
+    private boolean wordExist = false;
+    public boolean exist(char[][] board, String word) {
+        char c;
+        boolean[][] status = new boolean[board.length][board[0].length];
+        for( int i=0; i< board.length; i++) {
+            for (int j=0; j< board[0].length; j++) {
+                c = board[i][j];
+                if (c == word.charAt(0)) {//首位匹配了
+                     status[i][j] = true;
+                     dfs(board, i,j,word, 1,status);
+                     status[i][j] = false;
+                }
+                if (wordExist) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(char[][] board, int i, int j, String word, int count,boolean[][] status) {
+        if (wordExist) {
+            return true;
+        }
+        if (count == word.length()) {
+            wordExist = true;
+            return true;
+        }
+        // 上
+        if (i-1>=0 && !status[i-1][j] &&  board[i-1][j] == word.charAt(count)) {
+            status[i-1][j] = true;
+            wordExist = dfs(board, i-1, j ,word, count+1, status);
+            status[i-1][j] = false;
+        }
+        if (wordExist) return true;
+        // 下
+        if (i+1<board.length && !status[i+1][j] &&  board[i+1][j] == word.charAt(count)) {
+            status[i+1][j] = true;
+            wordExist = dfs(board, i+1, j ,word, count+1, status);
+            status[i+1][j] = false;
+        }
+        if (wordExist) return true;
+        // 左
+        if (j-1>=0  && !status[i][j-1] &&  board[i][j-1] == word.charAt(count)) {
+            status[i][j-1] = true;
+            wordExist = dfs(board, i, j-1 ,word, count+1, status);
+            status[i][j-1] = false;
+        }
+        if (wordExist) return true;
+        // 右
+        if (j+1< board[0].length  && !status[i][j+1] && board[i][j+1] == word.charAt(count)) {
+            status[i][j+1] = true;
+            wordExist = dfs(board, i, j+1 ,word, count+1, status);
+            status[i][j+1] = false;
+        }
+        return wordExist;
+    }
+
+    @Test
+    public void existTest() {
+        char[][] board = {
+                {'A','B','C','E'},
+                {'S','F','C','S'},
+                {'A','D','E','E'}
+        };
+//        Assert.assertEquals(true, exist(board,"ABCCED"));
+//        Assert.assertEquals(true, exist(board,"SEE"));
+        Assert.assertEquals(false, exist(board,"ABCB"));
+    }
 }
