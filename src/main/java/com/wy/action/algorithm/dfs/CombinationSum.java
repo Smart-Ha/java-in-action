@@ -9,7 +9,7 @@ import java.util.*;
  * @Author wangyong
  * @Date 2019-12-27
  */
-public class CombinationSun {
+public class CombinationSum {
 
     /**
      * 给出一组数，和目标，从数组中找吹一个组合，组合内的数相加等于目标，每个数可以出现多次，结果按从小到大的顺序，不能出现重复的
