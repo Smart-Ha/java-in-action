@@ -4,6 +4,7 @@ import com.wy.action.entity.ListNode;
 import com.wy.action.entity.Node;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 
 /**
@@ -98,5 +99,49 @@ public class LinkedApp {
         node.next = null;
         tail.next = head;
         return newHead;
+    }
+
+    /**
+     * 移除重复元素的节点
+     * https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+     * @param head 1->2->3->3->4->4->5
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode last = null;
+        ListNode node = head;
+        ListNode newHead = null;
+        while (node != null) {
+            boolean flag = true;
+            while (node.next!= null && node.val == node.next.val) {
+                node = node.next;
+                flag = false;
+            }
+
+            if (flag)  {//本次没有移除
+                if (last != null) {
+                    last.next = node;
+                }
+                last = node;
+
+                if (newHead == null) {
+                    newHead = node;
+                }
+            }
+            node = node.next;
+        }
+        if(last != null) {
+            last.next = null;
+        }
+        return newHead;
+    }
+
+    @Test
+    public void deleteDuplicatesTest() {
+        ListNode head = ListNode.construct(Arrays.asList(1,2,3,3,4,4,5));
+        ListNode.print(deleteDuplicates(head));
+
+        ListNode head1 = ListNode.construct(Arrays.asList(2,2,2));
+        ListNode.print(deleteDuplicates(head1));
     }
 }

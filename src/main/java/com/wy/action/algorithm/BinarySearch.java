@@ -75,6 +75,12 @@ public class BinarySearch {
         Assert.assertEquals(false, searchMatrix(matrix, 15));
         Assert.assertEquals(false, searchMatrix(matrix, 45));
     }
+
+    /**
+     * 求平方根
+     * @param x
+     * @return
+     */
     public int mySqrt(int x) {
         if (x <= 1) {
             return 0;
@@ -102,4 +108,99 @@ public class BinarySearch {
         Assert.assertEquals(10,mySqrt(101));
         Assert.assertEquals(100,mySqrt(10000));
     }
+
+
+    public int search(int[] nums, int target) {
+
+        if(nums.length == 0) return -1;
+        boolean inLeft = true;
+        if(target == nums[0]){
+            return 0;
+        }else if(target < nums[0]){
+            inLeft = false;
+        }
+        return searchRecursion(nums,1,nums.length-1,target,inLeft);
+    }
+
+    private int searchRecursion(int[] nums, int left, int right,int target, boolean inLeft) {
+        if(left>right)  return -1;
+        int mid = (left+right)/2;
+        if(nums[mid] == target) return mid;
+        if(inLeft && nums[mid]< nums[0]){
+            return searchRecursion(nums,left,mid-1,target,inLeft);
+        }
+
+        if(!inLeft && nums[mid]>nums[right]){
+            return searchRecursion(nums,mid+1,right,target,inLeft);
+        }
+
+        if(target > nums[mid]){
+            return searchRecursion(nums,mid+1,right,target,inLeft);
+        } else {
+            return searchRecursion(nums,left,mid-1,target,inLeft);
+        }
+    }
+
+    @Test
+    public void searchTest() {
+        int[] arr = {4,5,6,7,0,1,2};
+        Assert.assertEquals(2, search(new int[]{5,1,3}, 3));
+        Assert.assertEquals(0, search(new int[]{1,2,3}, 1));
+        Assert.assertEquals(2, search(new int[]{1,2,3}, 3));
+        Assert.assertEquals(4, search(new int[]{4,5,6,7,8,1,2,3}, 8));
+        Assert.assertEquals(0, search(new int[]{5,1,3}, 5));
+
+        Assert.assertEquals(4, search(arr, 0));
+        Assert.assertEquals(2, search(arr, 6));
+        Assert.assertEquals(-1, search(arr, 3));
+    }
+
+    /**
+     * 将一个排序的数组部分挪移之后，查找数组中是否存在target
+     * https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+     * @param nums 4,5,6,7,0,1,2,2
+     * @param target 0
+     * @return
+     */
+    public boolean search2(int[] nums, int target) {
+        if (nums.length == 0) return false;
+        boolean inLeft;
+        if (target == nums[0]) {
+            return true;
+        } else if( target > nums[0]){
+            inLeft = true;
+        } else {
+            inLeft = false;
+        }
+        return search2Recursion(nums, 0, nums.length-1, target, inLeft);
+    }
+
+    private boolean search2Recursion(int[] nums, int left, int right, int target, boolean inLeft) {
+        if (left>right) return false;
+        int mid = (left+right) /2;
+        if (nums[mid] == target) return true;
+        if (inLeft && nums[0]>= nums[mid]) {// 在左边临界
+            return search2Recursion(nums,left, mid-1, target, inLeft);
+        }
+        if (!inLeft && nums[mid]>= nums[right]) {// 在右边临界
+            return search2Recursion(nums,mid+1 , right, target, inLeft);
+        }
+
+        if (target > nums[mid]) {
+            return search2Recursion(nums,mid+1, right, target, inLeft);
+        } else {
+            return search2Recursion(nums,left, mid-1, target, inLeft);
+        }
+
+    }
+
+    @Test
+    public void test(){
+        int[] arr = {2,5,6,0,0,1,2};
+//        Assert.assertEquals(true, search2(arr, 5));
+//        Assert.assertEquals(true, search2(arr, 0));
+//        Assert.assertEquals(false, search2(arr, 3));
+        Assert.assertEquals(true, search2(new int[]{1,3,1,1,1}, 3));
+    }
+
 }
