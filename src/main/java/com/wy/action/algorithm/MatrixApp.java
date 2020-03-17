@@ -200,30 +200,20 @@ public class MatrixApp {
      * @return
      */
     public int removeDuplicates(int[] nums) {
-        int miss = 0;
-        for (int i=0; i < nums.length -miss;) {
-            if(i-2>=0 && nums[i-1]==nums[i] && nums[i-2] == nums[i]) {
-                miss++;
-                int k=i;
-                while (k+1 < nums.length) {
-                    nums[k] = nums[k+1];
-                    k++;
-                }
-                continue;
+        int i = 0;
+        for (int k: nums) {
+            if (i<2 || k>nums[i-2]) {
+                nums[i++] = k;
             }
-            i++;
-
         }
-        return nums.length-miss;
+        return i;
     }
 
     @Test
     public void removeDuplicatesTest() {
         int[] arr = {0,0,1,1,1,1,1,1,2,3,3};
         int[] one = {0,0,0,0,0};
-        System.out.println(removeDuplicates(one));
-        Print.print(one);
         Assert.assertEquals(7, removeDuplicates(arr));
-        Assert.assertEquals(5, removeDuplicates(one));
+        Assert.assertEquals(2, removeDuplicates(one));
     }
 }
