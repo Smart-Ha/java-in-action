@@ -102,7 +102,7 @@ public class LinkedApp {
     }
 
     /**
-     * 移除重复元素的节点
+     * 移除所有重复元素的节点
      * https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
      * @param head 1->2->3->3->4->4->5
      * @return
@@ -143,5 +143,37 @@ public class LinkedApp {
 
         ListNode head1 = ListNode.construct(Arrays.asList(2,2,2));
         ListNode.print(deleteDuplicates(head1));
+    }
+
+
+    /**
+     * 移除重复的节点
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates2(ListNode head) {
+        if (head== null || head.next == null) return head;
+        ListNode last = head;
+        ListNode node = head.next;
+        while (node != null) {
+            if (node.val == last.val) {
+                node = node.next;
+                continue;
+            }
+            last.next = node;
+            last = node;
+            node = node.next;
+        }
+        last.next = null;
+        return head;
+    }
+
+    @Test
+    public void deleteDuplicatesTest2() {
+        ListNode head = ListNode.construct(Arrays.asList(1,2,3,3,4,4,5));
+        ListNode.print(deleteDuplicates2(head));
+
+        ListNode head1 = ListNode.construct(Arrays.asList(2,2,2));
+        ListNode.print(deleteDuplicates2(head1));
     }
 }
