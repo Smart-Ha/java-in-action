@@ -216,4 +216,35 @@ public class MatrixApp {
         Assert.assertEquals(7, removeDuplicates(arr));
         Assert.assertEquals(2, removeDuplicates(one));
     }
+
+    /**
+     * 找出最大的矩形面积
+     * @param heights
+     * @return
+     */
+    public int largestRectangleArea(int[] heights) {
+        int max = 0, res,k;
+        for(int i=0; i<heights.length; i++) {
+            for (int j=0; j+i<heights.length; j++) {
+                k=j;
+                int min = Integer.MAX_VALUE;
+                while (k<=j+i) {
+                    if (min> heights[k]) {
+                        min = heights[k];
+                    }
+                    k++;
+                }
+                res = min *  (i+1);
+                if (max < res) {
+                    max = res;
+                }
+            }
+        }
+        return max;
+    }
+
+    @Test
+    public void largestRectangleAreaTest() {
+        Assert.assertEquals(10, largestRectangleArea(new int[]{2,1,5,6,2,3}));
+    }
 }
