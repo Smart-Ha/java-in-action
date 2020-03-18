@@ -219,28 +219,39 @@ public class MatrixApp {
 
     /**
      * 找出最大的矩形面积
+     * https://leetcode.com/problems/largest-rectangle-in-histogram/
+     * 已i为中心（最矮的），找出左右连续比他高的 max = h[i] * (right-left-1)
      * @param heights
      * @return
      */
     public int largestRectangleArea(int[] heights) {
-        int max = 0, res,k;
-        for(int i=0; i<heights.length; i++) {
-            for (int j=0; j+i<heights.length; j++) {
-                k=j;
-                int min = Integer.MAX_VALUE;
-                while (k<=j+i) {
-                    if (min> heights[k]) {
-                        min = heights[k];
-                    }
-                    k++;
-                }
-                res = min *  (i+1);
-                if (max < res) {
-                    max = res;
-                }
+        if (heights.length == 0) return 0;
+        int max = 0;
+        int[] lessLestIdx = new int[heights.length];
+        int[] lessRightIdx = new int[heights.length];
+        lessLestIdx[0] = -1;
+        lessRightIdx[heights.length-1] = heights.length;
+        int p;
+        for (int i=1; i<heights.length; i++) {
+            p = i-1;
+            while (p>=0 && heights[i]<= heights[p]) {
+                p = lessLestIdx[p];
             }
+            lessLestIdx[i] = p;
+        }
+        for (int i=heights.length-2;i>=0; i--) {
+            p = i+1;
+            while (p < heights.length && heights[i]<= heights[p]) {
+                p = lessRightIdx[p];
+            }
+            lessRightIdx[i] = p;
+        }
+
+        for (int i=0; i<heights.length; i++) {
+            max = Math.max(max, heights[i] *( lessRightIdx[i]-lessLestIdx[i]-1));
         }
         return max;
+
     }
 
     @Test
