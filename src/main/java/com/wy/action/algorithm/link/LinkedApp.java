@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 链表
@@ -175,5 +177,57 @@ public class LinkedApp {
 
         ListNode head1 = ListNode.construct(Arrays.asList(2,2,2));
         ListNode.print(deleteDuplicates2(head1));
+    }
+
+    /**
+     * 将链表中小于x的节点排到 大于等于x的节点前面，保持原来的相对顺序
+     * https://leetcode.com/problems/partition-list/
+     * @param head
+     * @param x
+     * @return
+     */
+    public ListNode partition(ListNode head, int x) {
+        if (head == null || head.next ==null) return head;
+        Queue<ListNode> pre = new LinkedList();
+        Queue<ListNode> after = new LinkedList();
+        ListNode node = head;
+        while (node != null) {
+            if (node.val < x) {
+                pre.add(node);
+            } else {
+                after.add(node);
+            }
+            node = node.next;
+        }
+        if (pre.isEmpty()) return head;
+        ListNode newHead = null, last =null;
+        node = null;
+        while (!pre.isEmpty()) {
+            node = pre.remove();
+            if (last != null) {
+                last.next = node;
+            }
+            last = node;
+            if (newHead == null) {
+                newHead = node;
+            }
+        }
+
+        while (!after.isEmpty()) {
+            node = after.remove();
+            last.next = node;
+            last = node;
+        }
+        last.next = null;
+        return newHead;
+    }
+
+    @Test
+    public void partitionTest() {
+        ListNode head = ListNode.construct(Arrays.asList(1,4,3,2,5,2));
+        ListNode.print(partition(head, 3));
+
+        head = ListNode.construct(Arrays.asList(1,1));
+        ListNode.print(partition(head, 0));
     }
 }
