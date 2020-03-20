@@ -116,21 +116,16 @@ public class SortApp {
      * @param n
      */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int index = 0;
-        int j=0;
-        while ( j<n && index<m+n) {
-            if (nums1[index] > nums2[j]) {
-                int k= m+n-1;
-                while (k>index) {
-                    nums1[k] = nums1[k-1];
-                    k--;
-                }
-                nums1[index] = nums2[j];
-                j++;
-            } else if (index>=m+j){
-                nums1[index] = nums2[j++];
+        int i=m-1, j=n-1, k = m+n-1;
+        while (i>=0 && j>=0) {
+            if (nums1[i] < nums2[j]) {
+                nums1[k--] = nums2[j--];
+            }else {
+                nums1[k--] = nums1[i--];
             }
-            index++;
+        }
+        while (j>=0) {
+            nums1[k--] = nums2[j--];
         }
     }
 
