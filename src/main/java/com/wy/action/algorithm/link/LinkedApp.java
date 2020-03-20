@@ -187,38 +187,46 @@ public class LinkedApp {
      * @return
      */
     public ListNode partition(ListNode head, int x) {
-        if (head == null || head.next ==null) return head;
-        Queue<ListNode> pre = new LinkedList();
-        Queue<ListNode> after = new LinkedList();
-        ListNode node = head;
+        if (head == null || head.next == null) return head;
+        ListNode newHead = null,node = head, before = null, after = null;
         while (node != null) {
+            ListNode next = node.next;
             if (node.val < x) {
-                pre.add(node);
+
+                if (before != null) {
+                    ListNode temp = before.next;
+                    before.next = node;
+                    if (temp != node) {
+                        node.next = temp;
+                    }
+
+                }
+                before = node;
+                if (newHead == null) {
+                    newHead = node;
+                    if (after != null)
+                        before.next = head;
+                }
+                if (after != null) {
+                    after.next = next;
+                }
+
             } else {
-                after.add(node);
+                after = node;
             }
-            node = node.next;
+            node = next;
         }
-        if (pre.isEmpty()) return head;
-        ListNode newHead = null, last =null;
-        node = null;
-        while (!pre.isEmpty()) {
-            node = pre.remove();
-            if (last != null) {
-                last.next = node;
-            }
-            last = node;
-            if (newHead == null) {
-                newHead = node;
-            }
+        if (newHead == null) {
+            newHead = head;
+        }
+        if (before !=null && before.next == null) {
+            before.next = after;
+        }
+        if (after != null) {
+            after.next = null;
         }
 
-        while (!after.isEmpty()) {
-            node = after.remove();
-            last.next = node;
-            last = node;
-        }
-        last.next = null;
+
         return newHead;
     }
 
@@ -226,8 +234,13 @@ public class LinkedApp {
     public void partitionTest() {
         ListNode head = ListNode.construct(Arrays.asList(1,4,3,2,5,2));
         ListNode.print(partition(head, 3));
-
-        head = ListNode.construct(Arrays.asList(1,1));
-        ListNode.print(partition(head, 0));
+        System.out.println();
+        ListNode.print(partition(ListNode.construct(Arrays.asList(1,1)), 0));
+        System.out.println();
+        ListNode.print(partition(ListNode.construct(Arrays.asList(1,1)), 2));
+        System.out.println();
+        ListNode.print(partition(ListNode.construct(Arrays.asList(2,1)), 2));
+        System.out.println();
+        ListNode.print(partition(ListNode.construct(Arrays.asList(2,1,3)), 2));
     }
 }

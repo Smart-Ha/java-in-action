@@ -39,7 +39,8 @@ public class ListNode {
 
     public static void print(ListNode head) {
         while (head != null) {
-            System.out.println(head.val);
+            System.out.print(head.val);
+            System.out.print("-->");
             head = head.next;
         }
     }
