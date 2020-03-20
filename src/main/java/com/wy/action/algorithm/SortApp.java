@@ -105,4 +105,39 @@ public class SortApp {
     private static void mergeC(List<Integer> arr, int start,int mid, int end) {
 
     }
+
+
+    /**
+     * 合并两个有序数组
+     * https://leetcode.com/problems/merge-sorted-array/
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int index = 0;
+        int j=0;
+        while ( j<n && index<m+n) {
+            if (nums1[index] > nums2[j]) {
+                int k= m+n-1;
+                while (k>index) {
+                    nums1[k] = nums1[k-1];
+                    k--;
+                }
+                nums1[index] = nums2[j];
+                j++;
+            } else if (index>=m+j){
+                nums1[index] = nums2[j++];
+            }
+            index++;
+        }
+    }
+
+    @Test
+    public void mergeTest() {
+        int[] arr = {1,2,3,7,12,0,0,0,0,0};
+        merge(arr,5, new int[]{2,5,6}, 3);
+        Print.print(arr);
+    }
 }
