@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -259,6 +260,45 @@ public class MatrixApp {
         Assert.assertEquals(10, largestRectangleArea(new int[]{2,1,5,6,2,3}));
     }
 
+    /**
+     * 返回一个数组的子序列
+     * https://leetcode.com/problems/subsets-ii/
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(new ArrayList<>());// 空序列
+        Arrays.sort(nums);
+        for(int k=1; k<=nums.length;k++) {
+            bfs(nums, result, new ArrayList<>(), k,0);
+        }
 
+        return result;
+    }
 
+    public void bfs(int[] nums, List<List<Integer>> result,List<Integer> one,  int k, int i) {
+        if (one.size() == k) {
+            List<Integer> r =  new ArrayList<>(one);
+            result.add(r);
+            return;
+        }
+        boolean flag = false;
+        for (int j=i ;j<nums.length; j++) {
+            if (flag && j-1>=0 && nums[j] == nums[j-1]) {
+                continue;
+            }
+            one.add(nums[j]);
+            bfs(nums, result, one, k, j+1);
+            one.remove(one.size()-1);
+            flag = true;
+        }
+    }
+
+    @Test
+    public void subsetsWithDupTest() {
+        System.out.println(subsetsWithDup(new int[]{1,1}));
+        System.out.println(subsetsWithDup(new int[]{1,2,2}));
+        System.out.println(subsetsWithDup(new int[]{1,2,2,3,4,4,5}));
+    }
 }
