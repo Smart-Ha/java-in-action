@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 public class CompletionServiceApp {
 
     /**
-     * 场景：同一种商品向不同的电商平台询价，将询价的姐夫入库
+     * 场景：同一种商品向不同的电商平台询价，将询价的价格入库
      * 实现： 使用CompletionService。 原理是将多个相同类型的任务异步处理，将处理结果保存在一个阻塞队列中，这样就能实现谁先来就处理谁的。
      */
 

@@ -23,23 +23,20 @@ public class DecodeWays {
         if ( s.length()>0 && s.charAt(0) == '0') return 0;
 
         if (s.length() <2) return s.length();
-        int[] status = new int[s.length()];
-        int i=0;
+        int[] status = new int[s.length()+1];
         status[0] = 1;
-        for(i=1; i < s.length(); i++) {
-            if (s.charAt(i-1) != '0' && Integer.parseInt(s.substring(i-1,i+1)) <=26) {
-                if (s.charAt(i) == '0') {// 0不能单独存在
-                    status[i] = status[i-1] ==1 ? 1 :status[i-1]-1;
-                } else {
-                    status[i] = 2*status[i-1]-1;
-                }
-            } else if (s.charAt(i) == '0' ) {
-                return 0;
-            } else {
-                status[i] = status[i-1];
+        status[1] = s.charAt(0) =='0'?0:1;
+        for(int i=2; i <= s.length(); i++) {
+            int first = Integer.parseInt(s.substring(i-1, i));
+            int second = Integer.parseInt(s.substring(i-2, i));
+            if (first>0 && first < 10) {
+                status[i] += status[i-1];
+            }
+            if (second>9 && second<=26) {
+                status[i] += status[i-2];
             }
         }
-        return status[s.length()-1];
+        return status[s.length()];
     }
 
     @Test
