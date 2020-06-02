@@ -2,6 +2,7 @@ package com.wy.action.algorithm.link;
 
 import com.wy.action.entity.ListNode;
 import com.wy.action.entity.Node;
+import com.wy.action.util.Print;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -243,4 +244,47 @@ public class LinkedApp {
         System.out.println();
         ListNode.print(partition(ListNode.construct(Arrays.asList(2,1,3)), 2));
     }
+
+    /**
+     * 反转链表从m到n的元素
+     * https://leetcode.com/problems/reverse-linked-list-ii/
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        ListNode curr = head, pre=null;
+        while (m>1) {
+            pre = curr;
+            curr = curr.next;
+            m--;
+            n--;
+        }
+
+        ListNode newHead = pre, temp,last=curr;
+        while (n >0) {
+            temp = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = temp;
+            n--;
+        }
+        if (newHead != null) {
+            newHead.next = pre;
+        } else {//第一个元素调换了
+            head = pre  ;
+        }
+        last.next = curr;
+        return head;
+    }
+
+    @Test
+    public void reverseBetweenTest() {
+        ListNode.print(reverseBetween(ListNode.construct(Arrays.asList(1,2,3,4,5)), 2,4));
+        ListNode.print(reverseBetween(ListNode.construct(Arrays.asList(1,2,3,4,5)), 1,4));
+        ListNode.print(reverseBetween(ListNode.construct(Arrays.asList(1,2,3,4,5)), 1,5));
+        ListNode.print(reverseBetween(ListNode.construct(Arrays.asList(1)), 1,1));
+    }
+
 }

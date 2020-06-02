@@ -43,6 +43,7 @@ public class ListNode {
             System.out.print("-->");
             head = head.next;
         }
+        System.out.println();
     }
 }
 
