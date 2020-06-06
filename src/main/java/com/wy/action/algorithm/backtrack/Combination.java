@@ -12,7 +12,7 @@ import java.util.List;
 public class Combination {
 
     /**
-     * 从1-n的数中， 返回ke个数排列的所有组合
+     * 从1-n的数中， 返回k个数排列的所有组合
      * https://leetcode.com/problems/combinations/
      * @param n
      * @param k
@@ -41,7 +41,7 @@ public class Combination {
     public void test() {
 
         System.out.println(combine(4,2));
-        System.out.println(combine(4,3));
+        System.out.println(combine(4,4));
     }
 
     /**

@@ -2,13 +2,11 @@ package com.wy.action.algorithm.link;
 
 import com.wy.action.entity.ListNode;
 import com.wy.action.entity.Node;
+import com.wy.action.entity.TreeNode;
 import com.wy.action.util.Print;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.IdentityHashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 链表
@@ -287,4 +285,95 @@ public class LinkedApp {
         ListNode.print(reverseBetween(ListNode.construct(Arrays.asList(1)), 1,1));
     }
 
+
+    /**
+     * 返回中序遍历的结果
+     * https://leetcode.com/problems/binary-tree-inorder-traversal/
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        TreeNode curr = root;
+        Stack<TreeNode> stack = new Stack<>();
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+        while (!stack.empty()) {
+            TreeNode one = stack.pop();
+            result.add(one.val);
+            curr = one.right;
+            while (curr !=null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 二叉搜索树
+     * key: 先生成所有的排列组合，再判断组合是否满足二叉查找树 左子树的节点都比根节点小，右子树的都比根节点大
+     * https://leetcode.com/problems/unique-binary-search-trees-ii/
+     * @param n
+     * @return
+     */
+    public List<TreeNode> generateTrees(int n) {
+        return genTreeList(1, n);
+    }
+
+
+    private List<TreeNode> genTreeList(int start, int end) {
+        List<TreeNode> list = new ArrayList<>();
+        if (start > end) {
+            list.add(null);
+        }
+        List<TreeNode> left, right;
+        for(int i=start; i<=end; i++) {
+            left = genTreeList(start, i-1);
+            right = genTreeList(i+1, end);
+            for (TreeNode treeNode: left) {
+                for (TreeNode  treeNode1: right) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = treeNode;
+                    root.right = treeNode1;
+                }
+            }
+        }
+        return list;
+    }
+
+
+
+
+    /**
+     * 构造全排列
+     * @param n
+     * @param list
+     * @param arr
+     * @param count
+     */
+    private void dfsArray(int n, Vector<Integer> list, int[] arr, int count){
+        if (count == n) {
+            for(int i=1;i<arr.length; i++) {
+                System.out.println(arr);
+            }
+            return;
+        }
+        for(int i=0; i<list.size(); i++) {
+            int value = list.get(i);
+            list.remove(i);
+            arr[count] = value;
+            dfsArray(n, list, arr, count+1);
+            list.insertElementAt(value, i);
+        }
+
+    }
+
+
+    @Test
+    public void generateTreesTest() {
+        generateTrees(3);
+    }
 }
