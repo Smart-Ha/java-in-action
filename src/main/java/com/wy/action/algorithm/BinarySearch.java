@@ -1,5 +1,6 @@
 package com.wy.action.algorithm;
 
+import com.wy.action.entity.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -203,4 +204,40 @@ public class BinarySearch {
         Assert.assertEquals(true, search2(new int[]{1,3,1,1,1}, 3));
     }
 
+
+    private boolean isValidBST = true;
+    /**
+     * 判断是否为二叉搜索树
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        isValidBST = true;
+        return isValidBSTR(root);
+    }
+
+    private boolean isValidBSTR(TreeNode root) {
+        if (!isValidBST) {
+            return false;
+        }
+        boolean b1 = true;
+        if (root.left != null) {
+            b1 =  root.val > root.left.val && isValidBST(root.left);
+            if (!b1) {
+                isValidBST = false;
+                return false;
+            }
+
+        }
+
+        if (root.right != null) {
+            return root.val < root.right.val && isValidBST(root.right);
+        }
+        return true;
+    }
+
+    @Test
+    public void isValidBSTTest() {
+
+    }
 }

@@ -1,9 +1,6 @@
 package com.wy.action.algorithm.backtrack;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
-
-import java.util.*;
 
 /**
  * @Author wangyong

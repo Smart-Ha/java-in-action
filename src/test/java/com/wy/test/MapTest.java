@@ -1,5 +1,7 @@
 package com.wy.test;
 
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,5 +24,14 @@ public class MapTest {
         System.out.println(map.get(new Integer(1000)));
         System.out.println(map.get(10000));
         System.out.println(map.get(new Integer(10000)));
+    }
+
+    @Test
+    public  void test() {
+        String str = "1|2";
+        String[] arr = str.split("\\|");
+        for (String s: arr) {
+            System.out.println(s);
+        }
     }
 }
