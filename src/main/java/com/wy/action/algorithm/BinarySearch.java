@@ -4,6 +4,8 @@ import com.wy.action.entity.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * @Author wangyong
  * @Date 2020-03-13
@@ -205,39 +207,32 @@ public class BinarySearch {
     }
 
 
-    private boolean isValidBST = true;
     /**
-     * 判断是否为二叉搜索树
+     * 判断是否为二叉搜索树,
+     * key: 对于左子树，他的取值范围为 (最左子树, 根节点）; 对于右子树，取值范围为 (根节点， 最右子树)
      * @param root
      * @return
      */
     public boolean isValidBST(TreeNode root) {
-        isValidBST = true;
-        return isValidBSTR(root);
+        if (root == null) {
+            return true;
+        }
+        return isValidBSTR(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    private boolean isValidBSTR(TreeNode root) {
-        if (!isValidBST) {
+    private boolean isValidBSTR(TreeNode root, long minVal, long maxVal) {
+        if (root == null) {
+            return true;
+        }
+        if (root.val >= maxVal || root.val <= minVal) {
             return false;
         }
-        boolean b1 = true;
-        if (root.left != null) {
-            b1 =  root.val > root.left.val && isValidBST(root.left);
-            if (!b1) {
-                isValidBST = false;
-                return false;
-            }
-
-        }
-
-        if (root.right != null) {
-            return root.val < root.right.val && isValidBST(root.right);
-        }
-        return true;
+        return isValidBSTR(root.left, minVal, root.val) && isValidBSTR(root.right, root.val, maxVal);
     }
 
     @Test
     public void isValidBSTTest() {
-
+        TreeNode root = TreeNode.bfsBuild(Arrays.asList(5,1,4,null,null, 3,6));
+        Assert.assertEquals(false, isValidBST(root));
     }
 }
