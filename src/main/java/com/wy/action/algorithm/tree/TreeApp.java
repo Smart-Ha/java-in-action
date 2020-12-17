@@ -99,4 +99,44 @@ public class TreeApp {
     }
 
 
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Queue<TreeNode> queue  = new LinkedList<>();
+        queue.add(root);
+        boolean asc = true;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> one = new ArrayList<>();
+            for (int i=0; i<size; i++) {
+                TreeNode treeNode = queue.poll();
+                if (treeNode.left != null ) {
+                    queue.add(treeNode.left);
+                }
+                if (treeNode.right != null) {
+                    queue.add(treeNode.right);
+                }
+                one.add(treeNode.val);
+            }
+            if (asc) {
+                asc = false;
+            } else {
+                asc = true;
+                Collections.reverse(one);
+            }
+            result.add(one);
+        }
+
+        return result;
+    }
+
+    @Test
+    public void zigzagLevelOrderTest() {
+        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3,9,20,null,null,15,7));
+        System.out.println(zigzagLevelOrder(treeNode));
+        treeNode = TreeNode.bfsBuild(Arrays.asList(1,2,null,3,null,4,null,5));
+        System.out.println(zigzagLevelOrder(treeNode));
+    }
 }
