@@ -1,5 +1,6 @@
 package com.wy.action.algorithm.tree;
 
+import com.wy.action.entity.ListNode;
 import com.wy.action.entity.TreeNode;
 import org.junit.Test;
 
@@ -37,6 +38,34 @@ public class BinarySearchTree {
         node.right = sortedArrayToBSTRecursion(mid+1, end, nums);
         return node;
 
+    }
+
+    /**
+     * 给一个有序链表，构建一个高度均衡（任意节点的左右字数高度差不大于1）的二叉查找树
+     * @param head
+     * @return
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        return sortedListToBSTRecursion(head, null);
+    }
+
+    private TreeNode sortedListToBSTRecursion(ListNode start, ListNode end) {
+        if (start == end) {
+            return null;
+        }
+        ListNode fast = start;
+        ListNode slow = start;
+        while (fast!= end && fast.next != end) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        TreeNode node = new TreeNode(slow.val);
+        node.left = sortedListToBSTRecursion(start, slow);
+        node.right = sortedListToBSTRecursion(slow.next, end);
+        return node;
     }
 
 
