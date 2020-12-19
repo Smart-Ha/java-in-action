@@ -270,4 +270,60 @@ public class TreeApp {
         preorderTraversalRecursion(root.left, result);
         preorderTraversalRecursion(root.right, result);
     }
+
+    /**
+     * 给定一个数，判断二叉树是否存在一个路径是的路径上的值相加等于这个数
+     * @param root
+     * @param sum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null && root.right == null &&  sum- root.val == 0) {
+            return true;
+        }
+        int left = sum - root.val;
+        return hasPathSum(root.left, left) || hasPathSum(root.right, left);
+    }
+
+    /**
+     * 给定一个数，判断二叉树是否存在一个路径是的路径上的值相加等于这个数,将所有路径返回
+     * @param root
+     * @param sum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        hasPathSumRecursion(root, sum, result, new LinkedList<Integer>());
+        return result;
+    }
+
+    private boolean hasPathSumRecursion(TreeNode root, int sum, List<List<Integer>> result,
+                                        LinkedList<Integer> list) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.left == null && root.right == null &&  sum- root.val == 0) {
+            // 重新拷贝一份，不影响后续的list操作
+            List<Integer> one = new ArrayList<>(list);
+            one.add(root.val);
+            result.add(one);
+            return true;
+        }
+        int left = sum - root.val;
+        list.add(root.val);
+        hasPathSumRecursion(root.left, left, result, list);
+        hasPathSumRecursion(root.right, left, result, list);
+        // 移除上次操作
+        list.removeLast();
+        return true;
+    }
+
+
 }
