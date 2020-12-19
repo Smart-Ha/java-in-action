@@ -1,6 +1,7 @@
 package com.wy.action.algorithm.tree;
 
 import com.wy.action.entity.TreeNode;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
@@ -139,4 +140,38 @@ public class TreeApp {
         treeNode = TreeNode.bfsBuild(Arrays.asList(1,2,null,3,null,4,null,5));
         System.out.println(zigzagLevelOrder(treeNode));
     }
+
+
+    public int maxDepthByBfs(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int dep = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            for(int i=0; i< size; i++) {
+                TreeNode treeNode = queue.poll();
+                if(treeNode.left != null) {
+                    queue.add(treeNode.left);
+                }
+                if (treeNode.right != null) {
+                    queue.add(treeNode.right);
+                }
+            }
+            dep++;
+        }
+        return dep;
+    }
+
+    @Test
+    public void maxDepthByBfsTest() {
+        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3,9,20,null,null,15,7));
+        Assert.assertEquals(3, maxDepthByBfs(treeNode));
+        treeNode = TreeNode.bfsBuild(Arrays.asList(1,2,null,3,null,4,null,5));
+        Assert.assertEquals(5, maxDepthByBfs(treeNode));
+    }
+
 }
