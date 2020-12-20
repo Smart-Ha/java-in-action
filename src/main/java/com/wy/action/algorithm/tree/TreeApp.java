@@ -325,5 +325,44 @@ public class TreeApp {
         return true;
     }
 
+    TreeNode current = null;
+    /**
+     * 将一个二叉树平铺为链表，先序遍历
+     */
+    public void flatten(TreeNode root) {
+        flattenTraversal(root,null);
+    }
+
+
+    private void flattenTraversal(TreeNode root, TreeNode father) {
+        if (root == null) {
+            current = father;
+            return;
+        }
+        if (father != null) {
+            father.right = root;
+            father.left = null;
+        }
+        TreeNode temp = root.right;
+        flattenTraversal(root.left, root);
+        flattenTraversal(temp, current);
+    }
+
+    TreeNode pre = null;
+    /**
+     * key: 记录最后一个位置，然后从右往左遍历，将当前节点的右指针指向上一个节点
+     * @param root
+     */
+    public void flatten2(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        flatten2(root.right);
+        flatten2(root.left);
+        root.right = pre;
+        root.left = null;
+        pre = root;
+    }
+
 
 }
