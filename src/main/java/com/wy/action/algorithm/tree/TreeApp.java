@@ -566,4 +566,27 @@ public class TreeApp {
         return reuslt;
     }
 
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return countNodes(root.left) + countNodes(root.right) +1;
+    }
+
+    /**
+     * 交换左右子树
+     * @param root
+     * @return
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode node = root.left;
+        root.left = root.right;
+        root.right = node;
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
+    }
 }
