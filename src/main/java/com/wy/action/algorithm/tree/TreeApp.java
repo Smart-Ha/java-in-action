@@ -487,4 +487,83 @@ public class TreeApp {
         return root;
     }
 
+    /**
+     * 求各个路径组成的数相加之和
+     */
+    int sum = 0;
+    public int sumNumbers(TreeNode root) {
+        sumNumbersRecursion(root, 0);
+        return sum;
+    }
+
+    private void sumNumbersRecursion(TreeNode root, int i) {
+        if (root == null) {
+            return;
+        }
+        i = i*10 +root.val;
+        if (root.left == null && root.right == null) {
+            sum += i;
+            return;
+        }
+        sumNumbersRecursion(root.left, i);
+        sumNumbersRecursion(root.right,i);
+
+    }
+
+    /**
+     * 后序遍历
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        postOrder(root, result);
+        return result;
+    }
+
+    private void postOrder(TreeNode root, List<Integer> result) {
+        if(root == null) {
+            return;
+        }
+        postOrder(root.left, result);
+        postOrder(root.right, result);
+        result.add(root.val);
+
+    }
+
+    /**
+     * 返回一棵树从右侧视角看的所有节点值
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> reuslt = new ArrayList<>();
+        if (root == null) {
+            return reuslt;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            TreeNode last = null;
+            for (int i=0; i< size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+                last = node;
+            }
+            reuslt.add(last.val);
+        }
+        return reuslt;
+    }
+
 }
