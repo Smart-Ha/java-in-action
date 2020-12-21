@@ -365,22 +365,50 @@ public class TreeApp {
     }
 
 
+    /**
+     * 求各个路径组成的数相加之和
+     */
     int sum = 0;
     public int sumNumbers(TreeNode root) {
-        sumNumbersRevcursion(root, 0);
+        sumNumbersRecursion(root, 0);
         return sum;
     }
 
-    private void sumNumbersRevcursion(TreeNode root, int i) {
+    private void sumNumbersRecursion(TreeNode root, int i) {
         if (root == null) {
             return;
         }
         i = i*10 +root.val;
         if (root.left == null && root.right == null) {
             sum += i;
+            return;
         }
-        sumNumbersRevcursion(root.left, i);
-        sumNumbersRevcursion(root.right,i);
+        sumNumbersRecursion(root.left, i);
+        sumNumbersRecursion(root.right,i);
+
+    }
+
+    /**
+     * 后序遍历
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        postOrder(root, result);
+        return result;
+    }
+
+    private void postOrder(TreeNode root, List<Integer> result) {
+        if(root == null) {
+            return;
+        }
+        postOrder(root.left, result);
+        postOrder(root.right, result);
+        result.add(root.val);
 
     }
 
