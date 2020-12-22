@@ -612,4 +612,78 @@ public class TreeApp {
         invertTree(root.right);
         return root;
     }
+
+    /**
+     * 打印路径  1->2->3
+     * @param root
+     * @return
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        binaryTreePathsRecursion(root, "", result);
+        return result;
+    }
+
+    public void binaryTreePathsRecursion(TreeNode root, String str, List<String> result) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            result.add(str+root.val);
+            return;
+        }
+        String val = str + root.val+"->";
+        if (root.left != null) {
+            binaryTreePathsRecursion(root.left, val, result);
+        }
+
+        if (root.right != null) {
+            binaryTreePathsRecursion(root.right, val, result);
+        }
+    }
+
+
+    public String smallestFromLeaf(TreeNode root) {
+        return dps(root, "");
+
+    }
+
+    private String dps(TreeNode root, String suffix) {
+        if (root == null) {
+            return suffix;
+        }
+        suffix = toString(root.val) + suffix;
+        if (root.left == null && root.right == null) {
+            return suffix;
+        }
+        if (root.left == null) {
+            return dps(root.right, suffix);
+        }
+        if (root.right == null) {
+            return dps(root.left, suffix);
+        }
+
+        String leftMin = dps(root.left, suffix);
+        String rightMin = dps(root.right, suffix);
+
+        return leftMin.compareTo(rightMin) <= 0 ? leftMin: rightMin;
+
+    }
+
+
+    private String toString(int val) {
+        char c = (char) (val+'a');
+        return String.valueOf(c);
+    }
+
+    @Test
+    public void smallestFromLeafTest() {
+        TreeNode node = TreeNode.bfsBuild(Arrays.asList(4,0,1,1));
+        String val = smallestFromLeaf(node);
+        System.out.println(val);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("be".compareTo("bae"));
+    }
 }
