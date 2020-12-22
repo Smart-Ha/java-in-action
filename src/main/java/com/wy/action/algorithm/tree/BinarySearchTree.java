@@ -113,6 +113,48 @@ public class BinarySearchTree {
         System.out.println(1);
     }
 
+    int kth = 0;
+    int kthValue = 0;
+    /**
+     * 找出二叉查找树冲第k小的数 中序遍历
+     * @param root
+     * @param k
+     * @return
+     */
+    public int kthSmallest(TreeNode root, int k) {
+        kthInOrder(root,k);
+        return kthValue;
+    }
+
+    private void kthInOrder(TreeNode root, int k) {
+        if (root == null) {
+            return;
+        }
+        kthInOrder(root.left, k);
+        kth++;
+        if (kth == k) {
+            kthValue = root.val;
+            return;
+        }
+        kthInOrder(root.right, k);
+    }
+
+
+    /**
+     * 最近的公共父节点
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // 两差相乘大于0 说明在同一边
+       while ((root.val-p.val) * (root.val - q.val) > 0 ) {
+
+           root = root.val > p.val ? root.left : root.right;
+       }
+       return root;
+    }
 
 
 }
