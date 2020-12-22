@@ -444,4 +444,26 @@ public class TreeApp {
         return reuslt;
     }
 
+    public List<Integer> rightSideViewII(TreeNode root) {
+        List<Integer> reuslt = new ArrayList<>();
+        if (root == null) {
+            return reuslt;
+        }
+        rightSide(root, reuslt, 0);
+        return reuslt;
+    }
+
+    private void rightSide(TreeNode root, List<Integer> reuslt, int dep) {
+        if (root == null) {
+            return;
+        }
+
+        if (reuslt.size() == dep) {
+            reuslt.add(root.val);
+        }
+        rightSide(root.right, reuslt, dep+1);
+        rightSide(root.left, reuslt, dep+1);
+
+    }
+
 }
