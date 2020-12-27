@@ -683,7 +683,45 @@ public class TreeApp {
         System.out.println(val);
     }
 
-    public static void main(String[] args) {
-        System.out.println("be".compareTo("bae"));
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (q ==p) {
+            return q;
+        }
+        LinkedList<TreeNode> pParents = new LinkedList<>();
+        LinkedList<TreeNode> qParents = new LinkedList<>();
+        findNode(root, p, pParents);
+        findNode(root, q, qParents);
+        TreeNode node = null;
+        while (!pParents.isEmpty() && !qParents.isEmpty()) {
+            TreeNode one = pParents.pollFirst();
+            if (one != qParents.pollFirst()) {
+                return node;
+            }
+            node = one;
+        }
+        return node;
+    }
+
+    private boolean findNode(TreeNode root, TreeNode q,LinkedList list) {
+        if (root == null) {
+            return false;
+        }
+        if (root == q) {
+            list.addFirst(root);
+            return true;
+        }
+
+        if (findNode(root.left, q, list) || findNode(root.right, q, list)) {
+            list.addFirst(root);
+            return true;
+        }
+        return false;
+
+    }
+
+    @Test
+    public void lowestCommonAncestorTest() {
+        TreeNode node = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,0,8,null,null,7,4));
+        TreeNode target = lowestCommonAncestor(node, node.left, node.left.right.right);
     }
 }
