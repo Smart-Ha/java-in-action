@@ -577,21 +577,16 @@ public class TreeApp {
         if (root == null) {
             return 0;
         }
-        return sumOfLeftLeavesRecursion(root.left, true) +
-               sumOfLeftLeavesRecursion(root.right, false) ;
+        int result = 0;
+       // 先计算左子树
+        if (root.left != null) {
+            if (root.left.left == null && root.left.right ==null) {
+                result += root.left.val;
+            } else {
+                result += sumOfLeftLeaves(root.left);
+            }
+        }
+        return result + sumOfLeftLeaves(root.right);
     }
 
-    public int sumOfLeftLeavesRecursion(TreeNode root, boolean fromLeft) {
-        if (root == null) {
-            return 0;
-        }
-        if (root.left == null && root.right == null) {
-            if (fromLeft) {
-                return root.val;
-            }
-            return 0;
-        }
-        return sumOfLeftLeavesRecursion(root.left, true) +
-                sumOfLeftLeavesRecursion(root.right, false);
-    }
 }

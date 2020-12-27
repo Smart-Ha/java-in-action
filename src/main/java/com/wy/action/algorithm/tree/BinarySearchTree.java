@@ -5,6 +5,7 @@ import com.wy.action.entity.TreeNode;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -156,5 +157,46 @@ public class BinarySearchTree {
        return root;
     }
 
+    /**
+     * 删除二叉查找树的一个节点，并保证他还是一颗bst
+     * KEY：目标节点删除之后，如果放置其左子树，那么将删除节点的右子树放在 target.left 的最右侧
+     *                     如果放置其右子树，那么将删除节点的左子树放在 target.right 的最左侧
+     * @param root
+     * @param key
+     * @return
+     */
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        } else if(key >root.val) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if(root.right == null) {
+                return root.left;
+            }
 
+            // 将左子树放在替换节点的最小节点（最左）上
+            TreeNode mostLeft = root.right;
+            while (mostLeft.left != null) {
+                mostLeft = mostLeft.left;
+            }
+            mostLeft.left = root.left;
+            root = root.right;
+        }
+        return root;
+    }
+
+
+    @Test
+    public void deleteNodeTest() {
+        TreeNode node = TreeNode.bfsBuild(Arrays.asList(5,3,6,2,4,null,7));
+        TreeNode treeNode = deleteNode(node, 7);
+        treeNode.print();
+
+    }
 }

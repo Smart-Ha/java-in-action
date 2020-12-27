@@ -56,4 +56,21 @@ public class TreeNode {
         }
         return head;
     }
+
+    public void print() {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(this);
+        while (!queue.isEmpty()) {
+            TreeNode node =  queue.poll();
+
+            if ( node.left != null) {
+                queue.add(node.left);
+            }
+            if ( node.right != null) {
+                queue.add(node.right);
+            }
+            System.out.printf(node.val+",");
+        }
+    }
+
 }
