@@ -59,201 +59,6 @@ public class TreeApp {
         return p.val == q.val && isSymmetricRec(p.left, q.right) && isSymmetricRec(p.right, q.left);
     }
 
-    /**
-     * 给定一个二叉树，返回其节点值的级别顺序遍历。 （即，从左到右，逐级）。
-     *
-     * @param root
-     * @return
-     */
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            List<Integer> one = new ArrayList<>();
-            for (int i = 0; i < size; i++) {
-                TreeNode treeNode = queue.poll();
-                if (treeNode.left != null) {
-                    queue.add(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    queue.add(treeNode.right);
-                }
-                one.add(treeNode.val);
-            }
-
-            result.add(one);
-        }
-
-        return result;
-    }
-
-    @Test
-    public void levelOrderTest() {
-        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3, 9, 20, null, null, 15, 7));
-        System.out.println(levelOrder(treeNode));
-        treeNode = TreeNode.bfsBuild(Arrays.asList(1, 2, null, 3, null, 4, null, 5));
-        System.out.println(levelOrder(treeNode));
-    }
-
-
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        boolean asc = true;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            List<Integer> one = new ArrayList<>();
-            for (int i = 0; i < size; i++) {
-                TreeNode treeNode = queue.poll();
-                if (treeNode.left != null) {
-                    queue.add(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    queue.add(treeNode.right);
-                }
-                one.add(treeNode.val);
-            }
-            if (asc) {
-                asc = false;
-            } else {
-                asc = true;
-                Collections.reverse(one);
-            }
-            result.add(one);
-        }
-
-        return result;
-    }
-
-    @Test
-    public void zigzagLevelOrderTest() {
-        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3, 9, 20, null, null, 15, 7));
-        System.out.println(zigzagLevelOrder(treeNode));
-        treeNode = TreeNode.bfsBuild(Arrays.asList(1, 2, null, 3, null, 4, null, 5));
-        System.out.println(zigzagLevelOrder(treeNode));
-    }
-
-
-    public int maxDepthByBfs(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int dep = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-
-            for (int i = 0; i < size; i++) {
-                TreeNode treeNode = queue.poll();
-                if (treeNode.left != null) {
-                    queue.add(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    queue.add(treeNode.right);
-                }
-            }
-            dep++;
-        }
-        return dep;
-    }
-
-    @Test
-    public void maxDepthByBfsTest() {
-        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3, 9, 20, null, null, 15, 7));
-        Assert.assertEquals(3, maxDepthByBfs(treeNode));
-        treeNode = TreeNode.bfsBuild(Arrays.asList(1, 2, null, 3, null, 4, null, 5));
-        Assert.assertEquals(5, maxDepthByBfs(treeNode));
-    }
-
-    /**
-     * 打印二叉树每层的节点， 从底部往上打
-     *
-     * @param root
-     * @return
-     */
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-
-        List<List<Integer>> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        recursion(queue, result);
-        return result;
-    }
-
-    private void recursion(Queue<TreeNode> queue, List<List<Integer>> result) {
-        int size = queue.size();
-        List<Integer> one = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            TreeNode node = queue.poll();
-            if (node.left != null) {
-                queue.add(node.left);
-            }
-            if (node.right != null) {
-                queue.add(node.right);
-            }
-            one.add(node.val);
-        }
-        if (!queue.isEmpty()) {
-            recursion(queue, result);
-        }
-        if (!one.isEmpty()) {
-            result.add(one);
-        }
-    }
-
-    @Test
-    public void levelOrderBottomTest() {
-        TreeNode root = TreeNode.bfsBuild(Arrays.asList(3, 9, 20, null, null, 15, 7));
-        System.out.println(levelOrderBottom(root));
-    }
-
-    /**
-     * 求二叉树每一层的平均值
-     *
-     * @param root
-     * @return
-     */
-    public List<Double> averageOfLevels(TreeNode root) {
-        List<Double> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            double total = 0.0d;
-            for (int i = 0; i < size; i++) {
-                TreeNode treeNode = queue.poll();
-                if (treeNode.left != null) {
-                    queue.add(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    queue.add(treeNode.right);
-                }
-                total += treeNode.val;
-            }
-
-            result.add(total / size);
-        }
-
-        return result;
-    }
 
     /**
      * 输出先序遍历的结果
@@ -702,6 +507,29 @@ public class TreeApp {
         return node;
     }
 
+    /**
+     * 找出两个节点的最近公共父节点
+     * KEY： 递归调用，要不在左子树，要不在右子树，否则就是跟节点
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestorII(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestorII(root.left, p,q);
+        TreeNode right = lowestCommonAncestorII(root.right, p,q);
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+        return root;
+    }
+
     private boolean findNode(TreeNode root, TreeNode q,LinkedList list) {
         if (root == null) {
             return false;
@@ -723,5 +551,47 @@ public class TreeApp {
     public void lowestCommonAncestorTest() {
         TreeNode node = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,0,8,null,null,7,4));
         TreeNode target = lowestCommonAncestor(node, node.left, node.left.right.right);
+    }
+
+//    /**
+//     * 左子树之和
+//     * @param root
+//     * @return
+//     */
+//    public int sumOfLeftLeaves(TreeNode root) {
+//        if (root == null) {
+//            return 0;
+//        }
+//        if (root.left != null) {
+//            return root.left.val + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+//        }
+//        return sumOfLeftLeaves(root.right);
+//    }
+
+    /**
+     * 左叶子节点之和
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return sumOfLeftLeavesRecursion(root.left, true) +
+               sumOfLeftLeavesRecursion(root.right, false) ;
+    }
+
+    public int sumOfLeftLeavesRecursion(TreeNode root, boolean fromLeft) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            if (fromLeft) {
+                return root.val;
+            }
+            return 0;
+        }
+        return sumOfLeftLeavesRecursion(root.left, true) +
+                sumOfLeftLeavesRecursion(root.right, false);
     }
 }
