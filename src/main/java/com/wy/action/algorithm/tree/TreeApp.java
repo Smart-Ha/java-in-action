@@ -589,4 +589,41 @@ public class TreeApp {
         return result + sumOfLeftLeaves(root.right);
     }
 
+    /**
+     * 找出最频繁的子树和
+     * @param root
+     * @return
+     */
+    int max = 0;
+    public int[] findFrequentTreeSum(TreeNode root) {
+
+        Map<Integer, Integer> counter = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        treeSumTraverse(root, list, counter);
+        int[] result = new int[list.size()];
+        for (int i=0; i< list.size(); i++){
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
+    private int treeSumTraverse(TreeNode root, List<Integer> list, Map<Integer, Integer> counter) {
+        if (root == null) {
+            return 0;
+        }
+        int leftSum = treeSumTraverse(root.left, list, counter);
+        int rightSum = treeSumTraverse(root.right, list, counter);
+        int sum = root.val + leftSum +rightSum;
+        int count = counter.getOrDefault(sum, 0);
+        count++;
+        if (count > max) {
+            list.clear();
+            list.add(sum);
+            max = count;
+        } else if (count == max) {
+            list.add(sum);
+        }
+        counter.put(sum, count);
+        return sum;
+    }
 }
