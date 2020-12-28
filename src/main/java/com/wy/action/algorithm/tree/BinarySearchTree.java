@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -197,6 +198,54 @@ public class BinarySearchTree {
         TreeNode node = TreeNode.bfsBuild(Arrays.asList(5,3,6,2,4,null,7));
         TreeNode treeNode = deleteNode(node, 7);
         treeNode.print();
+    }
 
+    /**
+     * 找出二叉查找树的节点值出现最多的数，此题中的bst是左子树<= root <= 右子树
+     * KEY 中序遍历
+     * @param root
+     * @return
+     */
+    // 记录最大的count
+    int max = 0;
+    int count = 1;
+    // 记录上一个的值
+    Integer prev;
+    public int[] findMode(TreeNode root) {
+        if (root == null) {
+            return new int[0];
+        }
+        List<Integer> list = new ArrayList<>();
+        inOrder(root, list);
+        int[] result = new int[list.size()];
+        for (int i=0; i< list.size(); i++){
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
+    private void inOrder(TreeNode root, List<Integer> list) {
+        if (root == null ) {
+            return;
+        }
+        inOrder(root.left, list);
+        if (prev != null) {
+            if (prev == root.val) {
+                count++;
+            } else {
+                // 出现了新的值
+                count = 1;
+            }
+        }
+        if (count > max) {
+            list.clear();
+            max = count;
+            list.add(root.val);
+        } else if (count == max) {
+            list.add(root.val);
+        }
+
+        prev = root.val;
+        inOrder(root.right, list);
     }
 }
