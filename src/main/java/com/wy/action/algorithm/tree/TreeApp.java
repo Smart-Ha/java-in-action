@@ -648,4 +648,25 @@ public class TreeApp {
         findBottomLeftTraverse(root.right, dep+1, ints);
         return ints[1];
     }
+
+    /**
+     * 求最长路径的直径 求节点两颗子树的相加最大高度
+     * @param root
+     * @return
+     */
+    int dep = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        diameterOfBinaryTreeTraverse(root);
+        return dep;
+    }
+    public int diameterOfBinaryTreeTraverse(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = diameterOfBinaryTreeTraverse(root.left);
+        int right = diameterOfBinaryTreeTraverse(root.right);;
+        dep =  Math.max(left+right, dep);
+        return Math.max(left, right)+1;
+    }
 }

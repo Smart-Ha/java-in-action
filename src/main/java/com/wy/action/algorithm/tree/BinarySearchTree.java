@@ -273,4 +273,21 @@ public class BinarySearchTree {
         pre = root.val;
         minimumDiff(root.right);
     }
+
+    /**
+     *  将bst变成 每个节点的值等于他加上所有比他大的值之和
+     */
+    TreeNode preNode = null;
+    public TreeNode convertBST(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        convertBST(root.right);
+        if (preNode != null) {
+            root.val += preNode.val;
+        }
+        preNode = root;
+        convertBST(root.left);
+        return root;
+    }
 }
