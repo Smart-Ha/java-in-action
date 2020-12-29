@@ -248,4 +248,29 @@ public class BinarySearchTree {
         prev = root.val;
         inOrder(root.right, list);
     }
+
+    /**
+     * bst的最小绝对差
+     * @param root
+     * @return
+     */
+
+    int min = Integer.MAX_VALUE;
+    Integer pre = null;
+    public int getMinimumDifference(TreeNode root) {
+        minimumDiff(root);
+        return min;
+    }
+
+    private void minimumDiff(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        minimumDiff(root.left);
+        if (pre != null) {
+            min = Math.min(min, Math.abs(root.val- pre));
+        }
+        pre = root.val;
+        minimumDiff(root.right);
+    }
 }

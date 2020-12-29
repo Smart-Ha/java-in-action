@@ -626,4 +626,26 @@ public class TreeApp {
         counter.put(sum, count);
         return sum;
     }
+
+    /**
+     * 找出最底层的最左边的节点值
+     * @param root
+     * @return
+     */
+    public int findBottomLeftValue(TreeNode root) {
+        return findBottomLeftTraverse(root, 0, new int[]{0,0});
+    }
+
+    private int findBottomLeftTraverse(TreeNode root, int dep, int[] ints) {
+        if (root == null) {
+            return 0;
+        }
+        if (dep > ints[0]) {
+            ints[0] = dep;
+            ints[1] = root.val;
+        }
+        findBottomLeftTraverse(root.left, dep+1, ints);
+        findBottomLeftTraverse(root.right, dep+1, ints);
+        return ints[1];
+    }
 }
