@@ -809,4 +809,63 @@ public class TreeApp {
         Assert.assertEquals(tree2str(root), "1(2()(4))(3)");
 
     }
+
+    /**
+     * 合并两棵树 ，相同位置的节点 值相加
+     * @param t1
+     * @param t2
+     * @return
+     */
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        if (t1 == null && t2 == null) {
+            return null;
+        }
+        // 以t1为结果
+        if (t1 != null && t2 != null) {
+            t1.val += t2.val;
+        } else if (t1 == null) {
+            TreeNode temp = t1;
+            t1 = t2;
+            t2 = temp;
+        }
+
+        t1.left = mergeTrees(t1.left, t2 == null ? null: t2.left);
+        t1.right = mergeTrees(t1.right, t2 == null ? null: t2.right);
+
+        return t1;
+    }
+
+
+    /**
+     * 添加一行
+     * @param root
+     * @param v
+     * @param d
+     * @return
+     */
+    public TreeNode addOneRow(TreeNode root, int v, int d) {
+        if (root == null || d <0) {
+            return root;
+        }
+        return addOneRowTraverse(root, v,d, 1, true);
+    }
+
+    private TreeNode addOneRowTraverse(TreeNode root, int v, int d, int i, boolean fromLeft) {
+
+        if (d == i) {
+            TreeNode one = new TreeNode(v);
+            if (fromLeft) {
+                one.left = root;
+            } else {
+                one.right = root;
+            }
+            return one;
+        }
+        if (root == null) {
+            return null;
+        }
+        root.left = addOneRowTraverse(root.left, v,d, i+1, true);
+        root.right = addOneRowTraverse(root.right, v,d, i+1, false);
+        return root;
+    }
 }
