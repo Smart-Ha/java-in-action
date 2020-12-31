@@ -669,4 +669,144 @@ public class TreeApp {
         dep =  Math.max(left+right, dep);
         return Math.max(left, right)+1;
     }
+
+
+    public int maxDepth(com.wy.action.algorithm.tree.Node root) {
+
+        if (root == null) {
+            return 0;
+        }
+        int dep = 0;
+        for (com.wy.action.algorithm.tree.Node node: root.children) {
+            dep = Math.max(maxDepth(node), dep);
+        }
+        return dep+1;
+    }
+
+    /**
+     * https://leetcode.com/problems/binary-tree-tilt/
+     * @param root
+     * @return
+     */
+    public int findTilt(TreeNode root) {
+        findTiltTraverse(root);
+        return sum;
+    }
+
+
+    private int findTiltTraverse(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int left = findTiltTraverse(root.left);
+        int right =  findTiltTraverse(root.right);
+        sum += Math.abs( left- right);
+        // 返回的是当前的子树和自身之和
+        return left+ right+ root.val;
+    }
+
+    /**
+     * 判断t是否为s的子树
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isSubtree(TreeNode s, TreeNode t) {
+        if (s == null) {
+            return false;
+        }
+        if (s.val == t.val && isSameTree(s, t)) {
+            return true;
+        }
+
+        if (isSubtree(s.left, t) || isSubtree(s.right, t)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    /**
+     * n叉树的先序遍历
+     */
+    List<Integer> result = new ArrayList<>();
+    public List<Integer> preorder(com.wy.action.algorithm.tree.Node root) {
+        if (root == null) {
+            return result;
+        }
+        result.add(root.val);
+        if (root.children != null) {
+            for (com.wy.action.algorithm.tree.Node node : root.children) {
+                preorder(node);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * n叉树的后序遍历
+     * @param root
+     * @return
+     */
+    public List<Integer> postorder(com.wy.action.algorithm.tree.Node root) {
+        if (root == null) {
+            return result;
+        }
+
+        if (root.children != null) {
+            for (com.wy.action.algorithm.tree.Node node : root.children) {
+                postorder(node);
+            }
+        }
+        result.add(root.val);
+        return result;
+    }
+
+    /**
+     * 将二叉树的子树用() 包括起来，返回字符串
+     * [1,2,3,4] -> "1(2(4))(3)"
+     * [1,2,3,null,4] "1(2()(4))(3)"
+     * @param t
+     * @return
+     */
+    public String tree2str(TreeNode t) {
+        if (t == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        tree2strTraverse(t, sb);
+        return sb.toString();
+    }
+
+    private void tree2strTraverse(TreeNode t, StringBuilder sb) {
+        if (t == null) {
+            return;
+        }
+        sb.append(t.val);
+        if (t.left == null && t.right == null) {
+            return;
+        }
+        sb.append("(");
+        tree2strTraverse(t.left, sb);
+        sb.append(")");
+
+        if (t.right != null) {
+            sb.append("(");
+            tree2strTraverse(t.right, sb);
+            sb.append(")");
+        }
+
+
+    }
+
+    @Test
+    public void tree2strTest() {
+        TreeNode root = TreeNode.bfsBuild(Arrays.asList(1,2,3,4));
+        Assert.assertEquals(tree2str(root), "1(2(4))(3)");
+        root = TreeNode.bfsBuild(Arrays.asList(1,2,3,null,4));
+        Assert.assertEquals(tree2str(root), "1(2()(4))(3)");
+
+    }
 }
