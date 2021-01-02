@@ -868,4 +868,91 @@ public class TreeApp {
         return root;
     }
 
+    /**
+     *
+     * @param nums
+     * @return
+     */
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return maximumBinaryTree(nums,0, nums.length-1);
+    }
+
+    private TreeNode maximumBinaryTree(int[] nums, int start, int end) {
+        if (end<0 ||  start>=nums.length || start>end) {
+            return null;
+        }
+        int index = -1;
+        int max = -1;
+        for(int i=start; i<=end;i++) {
+            if (nums[i] > max) {
+                max = nums[i];
+                index = i;
+            }
+        }
+        TreeNode root = new TreeNode(max);
+        root.left = maximumBinaryTree(nums, start, index-1);
+        root.right = maximumBinaryTree(nums, index+1, end);
+
+        return root;
+    }
+
+
+    @Test
+    public void constructMaximumBinaryTreeTest() {
+        TreeNode root = constructMaximumBinaryTree(new int[]{3,2,1,6,0,5});
+        root.print();
+    }
+
+
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null) {return 0;}
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int max = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            Integer start = null;
+            int end = 0;
+            boolean hasValue = false;
+            for (int i=1;i<=size; i++) {
+                TreeNode node = queue.poll();
+                if (node != null) {
+                    if (start == null) {
+                        start = i;
+                    }
+                    end = i;
+                    queue.add(node.left);
+                    queue.add(node.right);
+                    hasValue = true;
+                }
+            }
+            // 队列没有值了
+            if (!hasValue) {
+                break;
+            }
+            max = Math.max(max, end-start+1);
+        }
+        return max;
+    }
+
+    public int findSecondMinimumValue(TreeNode root) {
+        return findSecondMinimumTraverse(root, root.val);
+    }
+
+    private int findSecondMinimumTraverse(TreeNode root, int rootVal) {
+        if (root == null) {
+            return -1;
+        }
+        if (root.val > rootVal) {
+            return root.val;
+        }
+        int left  = findSecondMinimumTraverse(root.left, rootVal);
+        int right = findSecondMinimumTraverse(root.right, rootVal);
+        if (left != -1 && right != -1) {
+            return Math.min(left, right);
+        } else if (left == -1) {
+            return right;
+        }
+        return left;
+    }
 }
