@@ -851,7 +851,6 @@ public class TreeApp {
     }
 
     private TreeNode addOneRowTraverse(TreeNode root, int v, int d, int i, boolean fromLeft) {
-
         if (d == i) {
             TreeNode one = new TreeNode(v);
             if (fromLeft) {
@@ -868,4 +867,5 @@ public class TreeApp {
         root.right = addOneRowTraverse(root.right, v,d, i+1, false);
         return root;
     }
+
 }
