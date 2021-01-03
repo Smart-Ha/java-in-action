@@ -955,4 +955,40 @@ public class TreeApp {
         }
         return left;
     }
+
+    public int[] findRedundantConnection(int[][] edges) {
+
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+
+        for(int i=0; i< edges.length; i++) {
+            Set<Integer> startSet = map.getOrDefault(edges[i][0], new HashSet<>());
+            if (startSet.contains(edges[i][0])) {
+                if (startSet.contains(edges[i][1])) {
+                    return edges[i];
+                }
+            } else {
+                startSet.add(edges[i][1]);
+                map.put(edges[i][0],startSet);
+            }
+        }
+
+        return new int[0];
+    }
+
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null) {
+            return null;
+        }
+        // 大于最大值，取左节点
+        if (root.val > high) {
+            return trimBST(root.left, low, high);
+        } else if (root.val < low) {
+            // 小于最小值，取右节点
+            return trimBST(root.right, low, high);
+        }
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+        return root;
+
+     }
 }
