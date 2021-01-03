@@ -975,20 +975,47 @@ public class TreeApp {
         return new int[0];
     }
 
-    public TreeNode trimBST(TreeNode root, int low, int high) {
-        if (root == null) {
-            return null;
-        }
-        // 大于最大值，取左节点
-        if (root.val > high) {
-            return trimBST(root.left, low, high);
-        } else if (root.val < low) {
-            // 小于最小值，取右节点
-            return trimBST(root.right, low, high);
-        }
-        root.left = trimBST(root.left, low, high);
-        root.right = trimBST(root.right, low, high);
-        return root;
+    private boolean leafSmr = true;
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        Queue<Integer> list = new LinkedList<>();
+        leafSimilarTraverse1(root1, list);
+        leafSimilarTraverse2(root2, list);
+        return (leafSmr && list.isEmpty()) ;
+    }
 
-     }
+    private void leafSimilarTraverse2(TreeNode root, Queue<Integer> list) {
+        if (!leafSmr) {
+            return;
+        }
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            if(list.isEmpty() || list.poll() != root.val) {
+                leafSmr = false;
+                return;
+            }
+        }
+        leafSimilarTraverse2(root.left, list);
+        leafSimilarTraverse2(root.right, list);
+    }
+
+    private void leafSimilarTraverse1(TreeNode root, Queue<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            list.offer(root.val);
+            return;
+        }
+        leafSimilarTraverse1(root.left, list);
+        leafSimilarTraverse1(root.right, list);
+    }
+
+    @Test
+    public void leafSimilarTest() {
+        TreeNode node1 = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,9,8,null,null,7,4));
+        TreeNode node2 = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,7,4,2,null,null,null,null,null,null,9,8));
+        Assert.assertEquals(true, leafSimilar(node1, node2));
+    }
 }

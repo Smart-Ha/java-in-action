@@ -284,4 +284,49 @@ public class BFSApp {
         return result;
     }
 
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null) {
+            return null;
+        }
+        // 大于最大值，取左节点
+        if (root.val > high) {
+            return trimBST(root.left, low, high);
+        } else if (root.val < low) {
+            // 小于最小值，取右节点
+            return trimBST(root.right, low, high);
+        }
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+        return root;
+    }
+
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == val) {
+            return root;
+        }
+        return root.val > val ? searchBST(root.left,val) : searchBST(root.right, val);
+    }
+
+    private int min = Integer.MAX_VALUE;
+    private Integer pre = null;
+    public int minDiffInBST(TreeNode root) {
+        minDiffInBSTTra(root);
+        return min;
+    }
+
+
+    private void minDiffInBSTTra(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        minDiffInBSTTra(root.left);
+        if (pre != null) {
+            min = Math.min(min, Math.abs(root.val- pre));
+        }
+        pre = root.val;
+        minDiffInBSTTra(root.right);
+    }
 }
