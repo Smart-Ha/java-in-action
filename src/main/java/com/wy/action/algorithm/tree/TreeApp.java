@@ -1018,4 +1018,59 @@ public class TreeApp {
         TreeNode node2 = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,7,4,2,null,null,null,null,null,null,9,8));
         Assert.assertEquals(true, leafSimilar(node1, node2));
     }
+
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val == 1 ? root : null;
+        }
+        root.left = pruneTree(root.left);
+        root.right = pruneTree(root.right);
+        if (root.left == null && root.right == null) {
+            return root.val == 1 ? root : null;
+        }
+        return root;
+    }
+
+    TreeNode subTree = null;
+    int deepest = 0;
+
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        subtreeTraverse(root,0);
+        return subTree;
+    }
+
+    private int subtreeTraverse(TreeNode root, int dep) {
+        if (root == null) {
+            return dep;
+        }
+        int left = subtreeTraverse(root.left, dep+1);
+        int right = subtreeTraverse(root.right, dep+1);
+        if (left == right) {
+            if (left>= deepest) {
+                subTree = root;
+                deepest = left;
+            }
+            return left;
+        } else if (left >right) {
+            if (left>deepest) {
+                deepest = left;
+                subTree = root.left;
+            }
+            return left;
+        }
+        if (right>deepest) {
+            deepest = right;
+            subTree = root.right;
+        }
+        return right;
+    }
+
+    @Test
+    public void subtreeWithAllDeepestTest() {
+        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,0,8,null,null,7,4));
+        treeNode = subtreeWithAllDeepest(treeNode);
+    }
 }
