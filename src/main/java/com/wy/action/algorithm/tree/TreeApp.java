@@ -868,4 +868,33 @@ public class TreeApp {
         root.right = addOneRowTraverse(root.right, v,d, i+1, false);
         return root;
     }
+
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        List<TreeNode> result = new ArrayList<>();
+
+        return result;
+    }
+
+    /**
+     * Given the root of a Binary Search Tree and a target number k, return true if there exist two elements in the BST such that their sum is equal to the given target
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        Set<Integer> set = new HashSet<>();
+        return findTargetTraverse(root, k, set);
+    }
+
+
+    private boolean findTargetTraverse(TreeNode root, int k, Set<Integer> set) {
+        if (root == null) {
+            return false;
+        }
+        if (set.contains(k - root.val)) {
+            return true;
+        }
+        set.add(root.val);
+        return findTargetTraverse(root.left,k, set) || findTargetTraverse(root.right ,k, set);
+    }
 }
