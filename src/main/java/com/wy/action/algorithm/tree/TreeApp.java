@@ -851,7 +851,6 @@ public class TreeApp {
     }
 
     private TreeNode addOneRowTraverse(TreeNode root, int v, int d, int i, boolean fromLeft) {
-
         if (d == i) {
             TreeNode one = new TreeNode(v);
             if (fromLeft) {
@@ -895,6 +894,212 @@ public class TreeApp {
             return true;
         }
         set.add(root.val);
-        return findTargetTraverse(root.left,k, set) || findTargetTraverse(root.right ,k, set);
+        return findTargetTraverse(root.left, k, set) || findTargetTraverse(root.right, k, set);
+    }
+
+    /**
+     *
+     * @param nums
+     * @return
+     */
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return maximumBinaryTree(nums,0, nums.length-1);
+    }
+
+    private TreeNode maximumBinaryTree(int[] nums, int start, int end) {
+        if (end<0 ||  start>=nums.length || start>end) {
+            return null;
+        }
+        int index = -1;
+        int max = -1;
+        for(int i=start; i<=end;i++) {
+            if (nums[i] > max) {
+                max = nums[i];
+                index = i;
+            }
+        }
+        TreeNode root = new TreeNode(max);
+        root.left = maximumBinaryTree(nums, start, index-1);
+        root.right = maximumBinaryTree(nums, index+1, end);
+
+        return root;
+    }
+
+
+    @Test
+    public void constructMaximumBinaryTreeTest() {
+        TreeNode root = constructMaximumBinaryTree(new int[]{3,2,1,6,0,5});
+        root.print();
+    }
+
+
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null) {return 0;}
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int max = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            Integer start = null;
+            int end = 0;
+            boolean hasValue = false;
+            for (int i=1;i<=size; i++) {
+                TreeNode node = queue.poll();
+                if (node != null) {
+                    if (start == null) {
+                        start = i;
+                    }
+                    end = i;
+                    queue.add(node.left);
+                    queue.add(node.right);
+                    hasValue = true;
+                }
+            }
+            // 队列没有值了
+            if (!hasValue) {
+                break;
+            }
+            max = Math.max(max, end-start+1);
+        }
+        return max;
+    }
+
+    public int findSecondMinimumValue(TreeNode root) {
+        return findSecondMinimumTraverse(root, root.val);
+    }
+
+    private int findSecondMinimumTraverse(TreeNode root, int rootVal) {
+        if (root == null) {
+            return -1;
+        }
+        if (root.val > rootVal) {
+            return root.val;
+        }
+        int left  = findSecondMinimumTraverse(root.left, rootVal);
+        int right = findSecondMinimumTraverse(root.right, rootVal);
+        if (left != -1 && right != -1) {
+            return Math.min(left, right);
+        } else if (left == -1) {
+            return right;
+        }
+        return left;
+    }
+
+    public int[] findRedundantConnection(int[][] edges) {
+
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+
+        for(int i=0; i< edges.length; i++) {
+            Set<Integer> startSet = map.getOrDefault(edges[i][0], new HashSet<>());
+            if (startSet.contains(edges[i][0])) {
+                if (startSet.contains(edges[i][1])) {
+                    return edges[i];
+                }
+            } else {
+                startSet.add(edges[i][1]);
+                map.put(edges[i][0],startSet);
+            }
+        }
+
+        return new int[0];
+    }
+
+    private boolean leafSmr = true;
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        Queue<Integer> list = new LinkedList<>();
+        leafSimilarTraverse1(root1, list);
+        leafSimilarTraverse2(root2, list);
+        return (leafSmr && list.isEmpty()) ;
+    }
+
+    private void leafSimilarTraverse2(TreeNode root, Queue<Integer> list) {
+        if (!leafSmr) {
+            return;
+        }
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            if(list.isEmpty() || list.poll() != root.val) {
+                leafSmr = false;
+                return;
+            }
+        }
+        leafSimilarTraverse2(root.left, list);
+        leafSimilarTraverse2(root.right, list);
+    }
+
+    private void leafSimilarTraverse1(TreeNode root, Queue<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            list.offer(root.val);
+            return;
+        }
+        leafSimilarTraverse1(root.left, list);
+        leafSimilarTraverse1(root.right, list);
+    }
+
+    @Test
+    public void leafSimilarTest() {
+        TreeNode node1 = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,9,8,null,null,7,4));
+        TreeNode node2 = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,7,4,2,null,null,null,null,null,null,9,8));
+        Assert.assertEquals(true, leafSimilar(node1, node2));
+    }
+
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        if (root.left == null && root.right == null) {
+            return root.val == 1 ? root : null;
+        }
+        root.left = pruneTree(root.left);
+        root.right = pruneTree(root.right);
+        if (root.left == null && root.right == null) {
+            return root.val == 1 ? root : null;
+        }
+        return root;
+    }
+
+    TreeNode subTree = null;
+    int deepest = 0;
+
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        subtreeTraverse(root,0);
+        return subTree;
+    }
+
+    private int subtreeTraverse(TreeNode root, int dep) {
+        if (root == null) {
+            return dep;
+        }
+        int left = subtreeTraverse(root.left, dep+1);
+        int right = subtreeTraverse(root.right, dep+1);
+        if (left == right) {
+            if (left>= deepest) {
+                subTree = root;
+                deepest = left;
+            }
+            return left;
+        } else if (left >right) {
+            if (left>deepest) {
+                deepest = left;
+                subTree = root.left;
+            }
+            return left;
+        }
+        if (right>deepest) {
+            deepest = right;
+            subTree = root.right;
+        }
+        return right;
+    }
+
+    @Test
+    public void subtreeWithAllDeepestTest() {
+        TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,0,8,null,null,7,4));
+        treeNode = subtreeWithAllDeepest(treeNode);
     }
 }
