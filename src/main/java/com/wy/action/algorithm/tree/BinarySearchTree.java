@@ -303,4 +303,32 @@ public class BinarySearchTree {
         }
         return root;
     }
+
+    TreeNode incresePre = null;
+
+    public TreeNode increasingBST(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode left = increasingBST(root.left);
+        if (incresePre != null) {
+            incresePre.right = root;
+            incresePre.left = null;
+        }
+        incresePre = root;
+        increasingBST(root.right);
+        if (incresePre != null) {
+            incresePre.left = null;
+        }
+        return left== null ? root:left;
+    }
+
+    @Test
+    public void increasingBST() {
+
+        TreeNode node = increasingBST(TreeNode.bfsBuild(Arrays.asList(2,1,4,null,null,3)));
+        System.out.println(node);
+
+
+    }
 }
