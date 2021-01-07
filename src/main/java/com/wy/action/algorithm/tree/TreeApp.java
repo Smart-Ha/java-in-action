@@ -1102,4 +1102,43 @@ public class TreeApp {
         TreeNode treeNode = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,0,8,null,null,7,4));
         treeNode = subtreeWithAllDeepest(treeNode);
     }
+
+    /**
+     * 返回n个节点的全二叉树， 全二叉树有2个或者0个子节点
+     * @param N
+     * @return
+     */
+    public List<TreeNode> allPossibleFBT(int N) {
+        if (N%2 == 0) {
+            return Collections.emptyList();
+        }
+        if (N == 1) {
+            return Arrays.asList(new TreeNode(0));
+
+        }
+
+
+        List<TreeNode> list = new ArrayList<>();
+        for (int i=1; i<N; i+=2) {
+            List<TreeNode> leftList = allPossibleFBT(i);
+            List<TreeNode> rightList = allPossibleFBT(N-i-1);
+
+            for (TreeNode left: leftList) {
+
+                for (TreeNode right: rightList) {
+                    TreeNode node = new TreeNode(0);
+                    node.left = left;
+                    node.right = right;
+                    list.add(node);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Test
+    public void allPossibleFBTTest() {
+        List<TreeNode> list = allPossibleFBT(5);
+        System.out.println(list);
+    }
 }
