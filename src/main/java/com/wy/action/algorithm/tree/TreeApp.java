@@ -1158,4 +1158,113 @@ public class TreeApp {
     public void pathSumIITest() {
         Assert.assertEquals(3, pathSumII(TreeNode.bfsBuild(Arrays.asList(5,4,8,11,null,13,4,7,2,null,null,5,1)), 22));
     }
+
+
+    /**
+     * 可反转任意节点的左右子树，判断两颗树经过若干反转后是否相等
+     * @param root1
+     * @param root2
+     * @return
+     */
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        boolean emp1 = root1 == null;
+        boolean emp2 = root2 == null;
+        if (emp1 && emp2) {
+            return true;
+        } else if (emp1^emp2) {
+            return false;
+        }
+        if (root1.val != root2.val) {
+            return false;
+        }
+        return flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right) ||
+         flipEquiv(root1.right, root2.left) && flipEquiv(root1.left, root2.right);
+
+    }
+
+    /**
+     * 判断是否为全二叉树
+     * @param root
+     * @return
+     */
+    public boolean isCompleteTree(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        Integer lastLevel = null;
+        int index = 0;
+        while (!queue.isEmpty()) {
+            if (lastLevel != null&& lastLevel != (int)Math.pow(2, index++)) {
+                return false;
+            }
+            int size = queue.size();
+            boolean preNotFull = false;
+            for(int i=0; i< size; i++) {
+                TreeNode node = queue.poll();
+                // 左子树为空，右子树不空
+                boolean leftEmp = node.left == null;
+                boolean rightEmp = node.right == null;
+                if (leftEmp && !rightEmp) {
+                    return false;
+                }
+                // 前一个同级节点子树不全，后面节点还有子树
+                if (!leftEmp && preNotFull) {
+                    return false;
+                }
+                if (!leftEmp) {
+                    queue.add(node.left);
+                } else {
+                    preNotFull = true;
+                }
+                if (!rightEmp) {
+                    queue.add(node.right);
+                } else {
+                    preNotFull = true;
+                }
+            }
+            lastLevel = size;
+        }
+        return true;
+    }
+
+    public boolean isCompleteTreeII(TreeNode root){
+        if (root == null) {
+            return false;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (queue.peek() != null) {
+            TreeNode treeNode = queue.poll();
+            queue.add(treeNode.left);
+            queue.add(treeNode.right);
+        }
+        while (!queue.isEmpty() && queue.peek()== null) {
+            queue.poll();
+        }
+        return queue.isEmpty();
+    }
+
+    @Test
+    public void isCompleteTreeTest() {
+
+        TreeNode root = TreeNode.bfsBuild(Arrays.asList(1,2,3,4,5,6));
+        Assert.assertEquals(true, isCompleteTree(root));
+    }
+
+
+    public boolean isUnivalTree(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        if (root.left != null && root.val!= root.left.val) {
+            return false;
+        }
+        if (root.right != null && root.val!= root.right.val) {
+            return false;
+        }
+        return isUnivalTree(root.left) && isUnivalTree(root.right);
+
+    }
 }
