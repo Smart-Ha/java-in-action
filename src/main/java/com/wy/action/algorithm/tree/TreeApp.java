@@ -1141,4 +1141,21 @@ public class TreeApp {
         List<TreeNode> list = allPossibleFBT(5);
         System.out.println(list);
     }
+
+    /**
+     * 给定一个值，找出二叉树中所有从上到下路径和等于这个值的个数
+     * @param root
+     * @param sum
+     * @return
+     */
+    int pathSum = 0;
+    public int pathSumII(TreeNode root, int sum) {
+        return pathSum;
+    }
+
+
+    @Test
+    public void pathSumIITest() {
+        Assert.assertEquals(3, pathSumII(TreeNode.bfsBuild(Arrays.asList(5,4,8,11,null,13,4,7,2,null,null,5,1)), 22));
+    }
 }

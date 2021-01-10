@@ -328,6 +328,43 @@ public class BinarySearchTree {
 
         TreeNode node = increasingBST(TreeNode.bfsBuild(Arrays.asList(2,1,4,null,null,3)));
         System.out.println(node);
+    }
+
+    /**
+     * 构造从1-n的所有二叉搜索树
+     * @param n
+     * @return
+     */
+    public List<TreeNode> generateTreesII(int n) {
+        if (n < 1) {
+            return new ArrayList<>();
+        }
+        return genTrees(1,n);
+    }
+
+    private List<TreeNode> genTrees(int start, int end) {
+        List<TreeNode> list = new ArrayList<>();
+        // 当start小于end的时候，说明不存在子树了
+        if (start > end) {
+            list.add(null);
+            return list;
+        }
+
+        for( int i=start; i<=end; i++) {
+            List<TreeNode> leftList = genTrees(start, i-1);
+            List<TreeNode> rightList = genTrees(i+1, end);
+
+            for (TreeNode left: leftList) {
+                for (TreeNode right: rightList) {
+                    TreeNode node = new TreeNode(i);
+                    node.left = left;
+                    node.right =  right;
+                    list.add(node);
+                }
+            }
+        }
+
+        return list;
 
 
     }
