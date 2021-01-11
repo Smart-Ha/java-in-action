@@ -1253,7 +1253,11 @@ public class TreeApp {
         Assert.assertEquals(true, isCompleteTree(root));
     }
 
-
+    /**
+     * 是否是值唯一的二叉树
+     * @param root
+     * @return
+     */
     public boolean isUnivalTree(TreeNode root) {
         if (root == null) {
             return true;
@@ -1266,5 +1270,130 @@ public class TreeApp {
         }
         return isUnivalTree(root.left) && isUnivalTree(root.right);
 
+    }
+
+    /**
+     * 通过反转之后，先序遍历数据的路径和给定路径一样，返回反转的中心节点
+     * @param root
+     * @param voyage
+     * @return
+     */
+    int currentVoyage = 0;
+    public List<Integer> flipMatchVoyage(TreeNode root, int[] voyage) {
+        currentVoyage = 0;
+        List<Integer> list = new ArrayList<>();
+        matchVoyage(root, voyage, list);
+        if (currentVoyage < voyage.length) {
+            return Arrays.asList(-1);
+        }
+        return list;
+    }
+
+    private boolean matchVoyage(TreeNode root, int[] voyage, List<Integer> list) {
+        if (root == null) {
+            return true;
+        }
+        if (root.val != voyage[currentVoyage]) {
+            return false;
+        }
+        currentVoyage++;
+        boolean left = matchVoyage(root.left, voyage, list);
+        if (!left) {
+            // 交换左右子树
+            matchVoyage(root.right, voyage, list);
+            matchVoyage(root.left, voyage, list);
+            list.add(root.val);
+            return true;
+        }
+        matchVoyage(root.right, voyage, list);
+        return true;
+    }
+    @Test
+    public void flipMatchVoyageTest() {
+        System.out.println(flipMatchVoyage(TreeNode.bfsBuild(Arrays.asList(1,2,3)) ,new int[] {1,3,2}));
+        System.out.println(flipMatchVoyage(TreeNode.bfsBuild(Arrays.asList(1,2)) ,new int[] {2,1}));
+    }
+
+
+    /**
+     * 给定一个有 N 个结点的二叉树的根结点 root，树中的每个结点上都对应有 node.val 枚硬币，并且总共有 N 枚硬币,
+     * 求将n枚硬币分配到n个节点的步数
+     * KEY： 我们把子树多出的硬币和欠缺的硬币数归总的根节点, 归总的路径就是结果
+     * @param root
+     * @return
+     */
+    private int coin = 0;
+    public int distributeCoins(TreeNode root) {
+        coin = 0;
+        distributeCoin(root);
+        return coin;
+    }
+
+    private int distributeCoin(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = distributeCoin(root.left);
+        int right = distributeCoin(root.right);
+        coin += Math.abs(left) + Math.abs(right);
+        return root.val + left+ right-1;
+    }
+
+    public static class Location implements Comparable<Location>{
+        int x;
+        int y;
+        int val;
+        public Location(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+
+        @Override
+        public int compareTo(Location o) {
+            if (o.x != x) {
+                return x-o.x;
+            } else if (o.y != y) {
+                return y - o.y;
+            } else {
+                return val - o.val;
+            }
+
+        }
+    }
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<Location> list = new ArrayList<>();
+        vertical(root, 0,0, list);
+        Collections.sort(list);
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(new ArrayList<>());
+        int pre = list.get(0).x;
+        for (Location location: list) {
+            if (location.x != pre) {
+                List<Integer> one = new ArrayList<>();
+                one.add(location.val);
+                result.add(one);
+            } else {
+               result.get(result.size()-1).add(location.val);
+            }
+            pre = location.x;
+        }
+        return result;
+    }
+
+    private void vertical(TreeNode root, int x,int y, List<Location> list) {
+        if (root == null) {
+            return;
+        }
+
+        Location location  = new Location(x, y, root.val);
+        list.add(location);
+        vertical(root.left, x-1, y+1,list);
+        vertical(root.right, x+1, y+1, list);
+    }
+    @Test
+    public void verticalTest() {
+        TreeNode node = TreeNode.bfsBuild(Arrays.asList(3,9,20,null,null,15,7));
+        System.out.println(verticalTraversal(node));
     }
 }
