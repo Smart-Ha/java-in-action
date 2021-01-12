@@ -1,4 +1,4 @@
-package com.wy.action.algorithm;
+package com.wy.action.algorithm.tree;
 
 import com.wy.action.entity.TreeNode;
 import org.junit.Assert;
@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @Author wangyong
  * @Date 2020-03-13
  */
-public class BinarySearch {
+public class BinarySearchTree0 {
 
     /**
      * 找出数组中是否有目标值 数组值从左到右有序，下一行比上一行的值大

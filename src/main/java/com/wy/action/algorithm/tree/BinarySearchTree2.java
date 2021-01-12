@@ -14,7 +14,7 @@ import java.util.List;
  * @Author wangyong
  * @Date 2020-12-19
  */
-public class BinarySearchTree {
+public class BinarySearchTree2 {
 
 
     /**

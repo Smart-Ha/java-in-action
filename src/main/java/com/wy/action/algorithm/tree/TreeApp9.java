@@ -38,4 +38,24 @@ public class TreeApp9 {
         TreeNode node = TreeNode.bfsBuild(Arrays.asList(1,2,3,null,4,null,5));
         Assert.assertEquals(true, isCousins(node, 4,5));
     }
+
+    /**
+     * 最大二叉树
+     * https://leetcode-cn.com/problems/maximum-binary-tree-ii/
+     * @param root
+     * @param val
+     * @return
+     */
+    public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+        if( root == null) {
+            return new TreeNode(val);
+        }
+        if (val > root.val) {
+            TreeNode node = new TreeNode(val);
+            node.left = root;
+            return node;
+        }
+        root.right = insertIntoMaxTree(root.right, val);
+        return root;
+    }
 }
