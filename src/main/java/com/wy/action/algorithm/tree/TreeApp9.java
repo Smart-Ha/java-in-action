@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TreeApp9 {
 
@@ -57,5 +59,29 @@ public class TreeApp9 {
         }
         root.right = insertIntoMaxTree(root.right, val);
         return root;
+    }
+
+    /**
+     * 1026. 节点与其祖先之间的最大差值
+     * https://leetcode-cn.com/problems/maximum-difference-between-node-and-ancestor/
+     * @param root
+     * @return
+     */
+    int maxDiff = 0;
+    public int maxAncestorDiff(TreeNode root) {
+        maxDiff = 0;
+        maxAncestorDiffTraverse(root, root.val,root.val);
+        return maxDiff;
+    }
+
+    private void maxAncestorDiffTraverse(TreeNode root, int min, int max) {
+        if (root == null) {
+            maxDiff = Math.max(maxDiff, max-min);
+            return;
+        }
+        max = Math.max(root.val, max);
+        min = Math.min(root.val, min);
+        maxAncestorDiffTraverse(root.left, min, max);
+        maxAncestorDiffTraverse(root.right, min, max);
     }
 }
