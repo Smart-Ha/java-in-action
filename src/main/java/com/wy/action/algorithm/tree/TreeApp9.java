@@ -58,4 +58,55 @@ public class TreeApp9 {
         root.right = insertIntoMaxTree(root.right, val);
         return root;
     }
+
+    /**
+     * 先序遍历还原二叉树
+     * https://leetcode-cn.com/problems/recover-a-tree-from-preorder-traversal/
+     * 输入："1-2--3--4-5--6--7"
+     * 输出：[1,2,5,3,4,6,7]
+     * @param S
+     * @return
+     */
+    int idx = 0;
+    public TreeNode recoverFromPreorder(String S) {
+        return recoverFromPreorderTra(S,0);
+    }
+
+    private TreeNode recoverFromPreorderTra(String s, int dep) {
+        if (idx >= s.length()) {
+            return null;
+        }
+
+        int i=idx;
+        int matchDep = 0;
+        for(; i<s.length(); i++) {
+            if (s.charAt(i) =='-') {
+                matchDep++;
+            } else {
+                break;
+            }
+        }
+        if (matchDep != dep) {
+            return null;
+        }
+        idx = i;
+        for(; i<s.length(); i++) {
+            if (s.charAt(i) =='-') {
+                break;
+            }
+        }
+
+        TreeNode node = new TreeNode(Integer.parseInt(s.substring(idx, i)));
+        idx = i;
+        node.left = recoverFromPreorderTra(s,  dep+1);
+        node.right = recoverFromPreorderTra(s, dep+1);
+        return node;
+    }
+    @Test
+    public void recoverFromPreorderTest() {
+
+        TreeNode treeNode = recoverFromPreorder("1-2--3--4-5--6--7");
+
+    }
+
 }
