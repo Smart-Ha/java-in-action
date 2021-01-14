@@ -280,4 +280,19 @@ public class TreeApp9 {
         root = lcaDeepestLeaves(root);
         System.out.println(root);
     }
+
+    /**
+     * 叶值的最小代价生成树 TODO
+     * https://leetcode-cn.com/problems/minimum-cost-tree-from-leaf-values/
+     * @param arr
+     * @return
+     */
+    public int mctFromLeafValues(int[] arr) {
+        mctFromLeaf(arr, 0);
+        return 0;
+    }
+
+    private void mctFromLeaf(int[] arr, int i) {
+
+    }
 }
