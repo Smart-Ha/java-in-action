@@ -4,7 +4,7 @@ import com.wy.action.entity.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class TreeApp9 {
 
@@ -109,4 +109,72 @@ public class TreeApp9 {
 
     }
 
+    /**
+     * 二叉树寻路
+     * https://leetcode-cn.com/problems/path-in-zigzag-labelled-binary-tree/
+     * @param label
+     * @return
+     */
+    public List<Integer> pathInZigZagTree(int label) {
+        List<Integer> result = new ArrayList<Integer>();
+        pathInZigZag(result, label);
+        result.add(label);
+        return result;
+    }
+
+    private void pathInZigZag(List<Integer> result, int label) {
+        if (label <=1 ){
+            return;
+        }
+        int dep = (int)(Math.log(label) / Math.log(2));
+
+        int parent = 3*(int) Math.pow(2, --dep) -1 - label/2;
+        pathInZigZag(result, parent);
+        result.add(parent);
+    }
+
+
+    @Test
+    public void pathInZigZagTest() {
+        List<Integer> list = pathInZigZagTree(14);
+        System.out.println(list);
+    }
+
+
+    /**
+     * 最大层内元素和
+     * @param root
+     * @return
+     */
+    public int maxLevelSum(TreeNode root) {
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int index = 1;
+        int max = Integer.MIN_VALUE;
+        int result = 1;
+        while(!queue.isEmpty()) {
+            int sum = 0;
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+
+                TreeNode node =queue.poll();
+                sum += node.val;
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+            if (sum > max) {
+                max = sum;
+                result = index;
+            }
+            index++;
+
+        }
+        return result;
+    }
 }
