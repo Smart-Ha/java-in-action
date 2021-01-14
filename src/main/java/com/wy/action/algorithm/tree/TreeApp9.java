@@ -60,6 +60,30 @@ public class TreeApp9 {
     }
 
     /**
+     * 1026. 节点与其祖先之间的最大差值
+     * https://leetcode-cn.com/problems/maximum-difference-between-node-and-ancestor/
+     * @param root
+     * @return
+     */
+    int maxDiff = 0;
+    public int maxAncestorDiff(TreeNode root) {
+        maxDiff = 0;
+        maxAncestorDiffTraverse(root, root.val,root.val);
+        return maxDiff;
+    }
+
+    private void maxAncestorDiffTraverse(TreeNode root, int min, int max) {
+        if (root == null) {
+            maxDiff = Math.max(maxDiff, max-min);
+            return;
+        }
+        max = Math.max(root.val, max);
+        min = Math.min(root.val, min);
+        maxAncestorDiffTraverse(root.left, min, max);
+        maxAncestorDiffTraverse(root.right, min, max);
+    }
+
+    /**
      * 先序遍历还原二叉树
      * https://leetcode-cn.com/problems/recover-a-tree-from-preorder-traversal/
      * 输入："1-2--3--4-5--6--7"
@@ -138,6 +162,46 @@ public class TreeApp9 {
     public void pathInZigZagTest() {
         List<Integer> list = pathInZigZagTree(14);
         System.out.println(list);
+
+    }
+    /**
+     * 删点成林
+     * https://leetcode-cn.com/problems/delete-nodes-and-return-forest/
+     * @param root
+     * @param to_delete
+     * @return
+     */
+    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+        List<TreeNode> result = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        for(int i=0;i<to_delete.length; i++) {
+            set.add(to_delete[i]);
+        }
+        root = delNodesTraverse(root, set, result);
+        if (root != null) {
+            result.add(root);
+        }
+        return result;
+    }
+
+    private TreeNode delNodesTraverse(TreeNode root, Set<Integer> set, List<TreeNode> result) {
+        if (root == null) {
+            return null;
+        }
+        if (set.contains(root.val)) {
+            TreeNode left = delNodesTraverse(root.left, set, result);
+            if (left != null)  {
+                result.add(left);
+            }
+            TreeNode right = delNodesTraverse(root.right, set, result);
+            if (right != null)  {
+                result.add(right);
+            }
+            return null;
+        }
+        root.left = delNodesTraverse(root.left, set, result);
+        root.right = delNodesTraverse(root.right, set, result);
+        return root;
     }
 
 
@@ -146,35 +210,74 @@ public class TreeApp9 {
      * @param root
      * @return
      */
-    public int maxLevelSum(TreeNode root) {
+    public int maxLevelSum(TreeNode root){
 
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int index = 1;
-        int max = Integer.MIN_VALUE;
-        int result = 1;
-        while(!queue.isEmpty()) {
-            int sum = 0;
-            int size = queue.size();
-            for (int i=0; i<size; i++) {
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.add(root);
+            int index = 1;
+            int max = Integer.MIN_VALUE;
+            int result = 1;
+            while (!queue.isEmpty()) {
+                int sum = 0;
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
 
-                TreeNode node =queue.poll();
-                sum += node.val;
+                    TreeNode node = queue.poll();
+                    sum += node.val;
 
-                if (node.left != null) {
-                    queue.offer(node.left);
+                    if (node.left != null) {
+                        queue.offer(node.left);
+                    }
+                    if (node.right != null) {
+                        queue.offer(node.right);
+                    }
                 }
-                if (node.right != null) {
-                    queue.offer(node.right);
+                if (sum > max) {
+                    max = sum;
+                    result = index;
                 }
-            }
-            if (sum > max) {
-                max = sum;
-                result = index;
-            }
-            index++;
+                index++;
 
+            }
+            return result;
         }
-        return result;
+        /**
+     * 最深叶节点的最近公共祖先
+     * https://leetcode-cn.com/problems/lowest-common-ancestor-of-deepest-leaves/
+     * @param root
+     * @return
+     */
+    int maxDep = 0;
+    TreeNode lcaDeepest = null;
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+        lcaDeepestLeavesTraverse(root,1);
+        return lcaDeepest;
+    }
+
+    private int lcaDeepestLeavesTraverse(TreeNode root, int i) {
+        if (root == null) {
+            return i;
+        }
+        i++;
+        if (root.left == null && root.right == null) {
+            if (maxDep < i) {
+                maxDep = i;
+                lcaDeepest =  root;
+            }
+            return i;
+        }
+        int left = lcaDeepestLeavesTraverse(root.left, i);
+        int right = lcaDeepestLeavesTraverse(root.right, i);
+        if (left ==right && left>= maxDep) {
+            lcaDeepest = root;
+        }
+        return Math.max(left, right);
+    }
+
+    @Test
+    public void LcaDeepestTest() {
+        TreeNode root = TreeNode.bfsBuild(Arrays.asList(3,5,1,6,2,0,8,null,null,7,4));
+        root = lcaDeepestLeaves(root);
+        System.out.println(root);
     }
 }
