@@ -184,4 +184,41 @@ public class BinarySearchTree3 {
         }
         return root;
     }
+
+    /**
+     * 分裂二叉树的最大乘积
+     * @param root
+     * @return
+     */
+    long productMax = 0;
+    public int maxProduct(TreeNode root) {
+        int sum = getSumByDFS(root);
+        maxProduct(root, sum);
+        return (int)(productMax % 1000000007);
+    }
+
+    private long maxProduct(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        long left = maxProduct(root.left, sum);
+        long right = maxProduct(root.right, sum);
+        long tem = left * (sum- left);
+        if ( tem > productMax) {
+            productMax = tem;
+        }
+        tem = right * (sum - right);
+        if (tem > productMax) {
+            productMax = tem;
+        }
+        return root.val + left + right;
+
+    }
+
+    private int getSumByDFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return getSumByDFS(root.left) + getSumByDFS(root.right) + root.val;
+     }
 }

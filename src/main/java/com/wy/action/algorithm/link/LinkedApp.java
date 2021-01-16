@@ -4,6 +4,7 @@ import com.wy.action.entity.ListNode;
 import com.wy.action.entity.Node;
 import com.wy.action.entity.TreeNode;
 import com.wy.action.util.Print;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
@@ -368,12 +369,47 @@ public class LinkedApp {
             dfsArray(n, list, arr, count+1);
             list.insertElementAt(value, i);
         }
-
     }
-
 
     @Test
     public void generateTreesTest() {
         generateTrees(3);
+    }
+
+
+    /**
+     * 二叉树中的是否存在一条自顶向下的链表
+     * @param head
+     * @param root
+     * @return
+     */
+    public boolean isSubPath(ListNode head, TreeNode root) {
+        return isSubPathDps(head, root) || isSubPath(head, root.left) || isSubPath(head, root.right);
+    }
+
+    private boolean isSubPathDps(ListNode head, TreeNode root) {
+        if (head == null) {
+            return true;
+        }
+        if (root == null) {
+            return false;
+        }
+
+        if (root.val != head.val) {
+            return false;
+        }
+        head = head.next;
+        return isSubPathDps(head, root.left) || isSubPathDps(head, root.right);
+    }
+
+    @Test
+    public void isSubPathTest() {
+        TreeNode root = TreeNode.bfsBuild(Arrays.asList(1,4,4,null,2,2,null,1,null,6,8,null,null,null,null,1,3));
+        ListNode listNode = ListNode.construct(Arrays.asList(4,2,8));
+        Assert.assertEquals(true, isSubPath(listNode, root));
+
+        root = TreeNode.bfsBuild(Arrays.asList(2,null,2,null,2,null,1));
+        listNode = ListNode.construct(Arrays.asList(2,2,1));
+        Assert.assertEquals(true, isSubPath(listNode, root));
     }
 }
