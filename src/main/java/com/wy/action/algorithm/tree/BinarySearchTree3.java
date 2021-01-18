@@ -221,4 +221,72 @@ public class BinarySearchTree3 {
         }
         return getSumByDFS(root.left) + getSumByDFS(root.right) + root.val;
      }
+
+    /**
+     * 搜索二叉树的最小公共子节点
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode one = null;
+        if (root.val > p.val && root.val > q.val) {
+           return lowestCommonAncestor(root.left, p,q);
+        } else if (root.val < p.val && root.val < q.val) {
+            return lowestCommonAncestor(root.right, p,q);
+        }
+        return root;
+    }
+
+    /**
+     * 给定一个升序排序的数据，构造高度最小的二叉查找树
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return sortedArrayToBST(0, nums.length-1, nums);
+    }
+
+    private TreeNode sortedArrayToBST(int start, int end, int[] nums) {
+        if (start > end) {
+            return null;
+        }
+        int mid = (start+ end)/2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortedArrayToBST(start, mid-1,nums);
+        root.right = sortedArrayToBST(mid+1, end,nums);
+        return root;
+    }
+
+    /**
+     * 二叉查找树后继者
+     * @param root
+     * @param p
+     * @return
+     */
+    TreeNode inOrderPre = null;
+    TreeNode inOrderSuccessor = null;
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        inorderSuccessorTraverse(root, p);
+        return inOrderSuccessor;
+    }
+
+    public void inorderSuccessorTraverse(TreeNode root, TreeNode p) {
+        if (root == null || inOrderSuccessor!= null) {
+            return ;
+        }
+        inorderSuccessorTraverse(root.left, p);
+        if (inOrderPre == p) {
+            inOrderSuccessor = root;
+        }
+        inOrderPre = root;
+        inorderSuccessorTraverse(root.right, p);
+    }
 }
