@@ -364,4 +364,29 @@ public class TreeApp6 {
         return result;
     }
 
+    /**
+     * t2是否为t1的子树
+     * @param t1
+     * @param t2
+     * @return
+     */
+    public boolean checkSubTree(TreeNode t1, TreeNode t2) {
+        if (t1 == null) {
+            return false;
+        }
+        return subTreeDFS(t1,t2) || checkSubTree(t1.left, t2) || checkSubTree(t1.right, t2);
+    }
+
+    private boolean subTreeDFS(TreeNode t1, TreeNode t2) {
+        boolean t1Emp = t1 == null;
+        boolean t2Emp = t2 == null;
+        if (t1Emp && t2Emp ) {
+            return true;
+        }
+        if (t1Emp ^ t2Emp) {
+            return false;
+        }
+        return t1.val == t2.val && subTreeDFS(t1.left, t2.left) && subTreeDFS(t1.right, t2.right);
+    }
+
 }

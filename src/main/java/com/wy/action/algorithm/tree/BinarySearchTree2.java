@@ -4,10 +4,7 @@ import com.wy.action.entity.ListNode;
 import com.wy.action.entity.TreeNode;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 二叉查找树
@@ -365,7 +362,82 @@ public class BinarySearchTree2 {
         }
 
         return list;
+    }
 
+    /**
+     * TODO 未通过
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> BSTSequences(TreeNode root) {
+        List<List<Integer>> all = null;
+        if (root == null) {
+            all =  new ArrayList<>();
+            all.add(new ArrayList<>());
+            return all;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+
+            for(int i=0; i<size; i++) {
+                TreeNode node = queue.poll();
+                list.add(node.val);
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            List<List<Integer>> one = new ArrayList<>();
+            permutation(0,list, one);
+            all = sequence(all, one);
+        }
+
+        return all;
+    }
+
+    private List<List<Integer>> sequence(List<List<Integer>> all, List<List<Integer>> one) {
+       if (all == null) {
+           return one;
+       }
+        List<List<Integer>> result = new ArrayList<>();
+        for (List<Integer> pre: all) {
+
+           for(List<Integer> next: one) {
+               List<Integer> r = new ArrayList<>();
+               r.addAll(pre);
+               r.addAll(next);
+               result.add(r);
+           }
+       }
+        return result;
+    }
+
+    public void permutation(int start, List<Integer> list,List<List<Integer>> result) {
+        if (start == list.size()) {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i=start; i<list.size() ; i++) {
+            boolean b = list.get(i) == start;
+            if(!b) {
+                int temp = list.get(i);
+                list.set(i, list.get(start));
+                list.set(start, temp);
+            }
+            permutation(start+1, list, result);
+            if(!b) {
+                int temp = list.get(i);
+                list.set(i, list.get(start));
+                list.set(start, temp);
+            }
+        }
 
     }
 }

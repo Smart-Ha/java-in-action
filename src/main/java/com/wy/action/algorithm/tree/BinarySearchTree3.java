@@ -289,4 +289,31 @@ public class BinarySearchTree3 {
         inOrderPre = root;
         inorderSuccessorTraverse(root.right, p);
     }
+
+    TreeNode biNodePre = null;
+    TreeNode head = null;
+
+    public TreeNode convertBiNode(TreeNode root) {
+        convertBiNodeTra(root);
+        if (biNodePre != null) {
+            biNodePre.left = null;
+        }
+        return head;
+    }
+    public void convertBiNodeTra(TreeNode root) {
+        if (root == null) {
+            return ;
+        }
+
+        convertBiNodeTra(root.left);
+        if (biNodePre != null) {
+            biNodePre.right = root;
+            biNodePre.left = null;
+        } else {
+            head = root;
+        }
+        biNodePre = root;
+        convertBiNodeTra(root.right);
+    }
+
 }
