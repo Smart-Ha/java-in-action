@@ -81,6 +81,7 @@ public class TreeApp6 {
         }
 
         if (start == end) {
+            preOrderIndex++;
             return new TreeNode(inorder[start]);
         }
 

@@ -418,4 +418,42 @@ public class MathApp {
         sortColors(arr);
         Print.print(arr);
     }
+
+    /**
+     * 求3个数的最大乘积
+     * @param nums
+     * @return
+     */
+    public int maximumProduct(int[] nums) {
+        Arrays.sort(nums);
+        int len = nums.length;
+        return Math.max(nums[len-2]* nums[len-1]* nums[len-3], nums[0]* nums[1]* nums[len-1]);
+    }
+
+    /**
+     * 杨辉三角
+     * @param numRows
+     * @return
+     */
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (numRows == 0) {
+            return result;
+        }
+        result.add(Arrays.asList(1));
+        if (numRows ==1) return result
+        result.add(Arrays.asList(1,1));
+        for( int i=3; i<=numRows; i++) {
+            List<Integer> list = new ArrayList<>();
+            list.add(1);
+            List<Integer> pre = result.get(i-2);
+            for( int j=1; j< i-1; j++) {
+                list.add( pre.get(j-1)+ pre.get(j));
+            }
+            list.add( 1);
+            result.add(list);
+
+        }
+        return result;
+    }
 }
