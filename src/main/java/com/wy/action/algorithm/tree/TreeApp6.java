@@ -100,6 +100,42 @@ public class TreeApp6 {
         TreeNode node1 = buildTree(new int[]{3,9,20,15,7}, new int[] {9,3,15,20,7});
     }
 
+
+    /**
+     * 从中序与后序遍历序列构造二叉树
+     * https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    int postIndex = 0;
+    public TreeNode buildTree2(int[] inorder, int[] postorder) {
+        postIndex = postorder.length-1;
+        Map<Integer, Integer> map = new HashMap<>();
+        // 存的是中序遍历数值的索引
+        for(int i=0; i<inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        return buildTreeTraverse2(inorder, postorder,0, postIndex, map);
+    }
+
+    private TreeNode buildTreeTraverse2(int[] inorder, int[] postorder,
+                                        int start, int end, Map<Integer, Integer> map) {
+        if (start > end) {
+            return null;
+        }
+        if (start == end) {
+            postIndex--;
+            return new TreeNode(inorder[start]);
+        }
+        TreeNode root = new TreeNode(postorder[postIndex]);
+        int index = map.get(root.val);
+        root.right = buildTreeTraverse2(inorder, postorder,index+1, end, map);
+        root.left = buildTreeTraverse2(inorder, postorder,start, index-1, map);
+        return root;
+    }
+
+
     /**
      * b是否为a的子树
      * @param A

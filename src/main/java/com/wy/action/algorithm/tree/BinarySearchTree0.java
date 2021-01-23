@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * @Author wangyong
@@ -238,31 +239,52 @@ public class BinarySearchTree0 {
         Assert.assertEquals(false, isValidBST(root));
     }
 
+    /**
+     * 二叉查找树中有两个节点位置反了，纠正过来
+     * @param root
+     */
+
+
     public void recoverTree(TreeNode root) {
         if (root == null) return;
-        Map<Integer, TreeNode> map = new HashMap<>();
-        map.put(root.val,root);
-        recoverTreeTraverse(root.left,Integer.MIN_VALUE, root.val,map);
-        recoverTreeTraverse(root.right , root.val, Integer.MAX_VALUE,map);
+
+        TreeNode errorOne = null;
+        TreeNode errorTwo = null;
+        TreeNode pre = null;
+
+        //  key 中序遍历
+        Stack<TreeNode> stack = new Stack();
+        while (root != null || !stack.empty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+
+            root = stack.pop();
+            if (pre != null) {
+                if (pre.val > root.val) {
+                    if (errorOne  == null) {
+                        errorOne = pre;
+                        errorTwo = root;
+                    } else {
+                        errorTwo = root;
+                    }
+                }
+            }
+            pre = root;
+            // 中序遍历
+            root = root.right;
+        }
+        int temp = errorOne.val;
+        errorOne.val = errorTwo.val;
+        errorTwo.val = temp;
     }
 
-    private void recoverTreeTraverse(TreeNode root, int start, int end, Map<Integer,TreeNode> map) {
-        if (root != null) {
-            return;
-        }
-        if (root.val > end) {
-            int temp = root.val;
-            root.val = end;
-            map.get(end).val = temp;
-            return;
-        }
-        if (root.val < start) {
-            int temp = root.val;
-            root.val = start;
-            map.get(start).val = temp;
-            return;
-        }
-        recoverTreeTraverse(root.left,start, root.val,map);
-        recoverTreeTraverse(root.right , root.val, end,map);
+    @Test
+    public void recoverTreeTest() {
+        TreeNode node = TreeNode.bfsBuild(Arrays.asList(5,3,6,2,4,null,null,1));
+        recoverTree(node);
+
+
     }
 }
