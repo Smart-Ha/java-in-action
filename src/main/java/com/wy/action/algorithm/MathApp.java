@@ -441,7 +441,7 @@ public class MathApp {
             return result;
         }
         result.add(Arrays.asList(1));
-        if (numRows ==1) return result
+        if (numRows ==1) return result;
         result.add(Arrays.asList(1,1));
         for( int i=3; i<=numRows; i++) {
             List<Integer> list = new ArrayList<>();
@@ -453,6 +453,65 @@ public class MathApp {
             list.add( 1);
             result.add(list);
 
+        }
+        return result;
+    }
+
+    /**
+     * 返回杨辉三角的第k行
+     * @param row
+     * @return
+     */
+    public List<Integer> getRow(int row) {
+        List<Integer> result = new ArrayList<>();
+
+        result.add(1);
+        for( int i=0; i< row; i++) {
+
+            for( int j=i; j>=1 ; j--) {
+                result.set(j, result.get(j)+result.get(j-1));
+            }
+            result.add(1);
+        }
+        return result;
+    }
+
+    /**
+     * 罗马数字转
+     * @param s
+     * @return
+     */
+    Map<String ,Integer> romanMap = new HashMap<>();
+    {
+        romanMap.put("I",1);
+        romanMap.put("IV",4);romanMap.put("V",5);
+        romanMap.put("X",10);romanMap.put("IX", 9);
+        romanMap.put("L",50);romanMap.put("XL", 40);
+        romanMap.put("C",100);romanMap.put("XC", 90);
+        romanMap.put("D",500);romanMap.put("CD", 400);
+        romanMap.put("M",1000);romanMap.put("CM", 900);
+    }
+    public int romanToInt(String s) {
+        int i =0;
+        int result = 0;
+        while (i< s.length()) {
+            if (i+2< s.length()) {
+                String str = s.substring(i, i+2);
+                Integer val = romanMap.get(str);
+                if (val != null) {
+                    result+= val;
+                    i+=2;
+                    continue;
+                }
+            }
+            char c = s.charAt(i);
+            int count = i+1;
+
+            while (count<s.length() && c == s.charAt(count)) {
+                count++;
+            }
+            result += romanMap.get(String.valueOf(c)) * (count -i);
+            i = count;
         }
         return result;
     }

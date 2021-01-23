@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author wangyong
@@ -234,5 +236,33 @@ public class BinarySearchTree0 {
     public void isValidBSTTest() {
         TreeNode root = TreeNode.bfsBuild(Arrays.asList(5,1,4,null,null, 3,6));
         Assert.assertEquals(false, isValidBST(root));
+    }
+
+    public void recoverTree(TreeNode root) {
+        if (root == null) return;
+        Map<Integer, TreeNode> map = new HashMap<>();
+        map.put(root.val,root);
+        recoverTreeTraverse(root.left,Integer.MIN_VALUE, root.val,map);
+        recoverTreeTraverse(root.right , root.val, Integer.MAX_VALUE,map);
+    }
+
+    private void recoverTreeTraverse(TreeNode root, int start, int end, Map<Integer,TreeNode> map) {
+        if (root != null) {
+            return;
+        }
+        if (root.val > end) {
+            int temp = root.val;
+            root.val = end;
+            map.get(end).val = temp;
+            return;
+        }
+        if (root.val < start) {
+            int temp = root.val;
+            root.val = start;
+            map.get(start).val = temp;
+            return;
+        }
+        recoverTreeTraverse(root.left,start, root.val,map);
+        recoverTreeTraverse(root.right , root.val, end,map);
     }
 }
