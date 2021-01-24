@@ -515,4 +515,69 @@ public class MathApp {
         }
         return result;
     }
+
+    /**
+     * 买卖股票的最佳时机
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int max = 0;
+        Integer minValue = null;
+        for(int i=0; i< prices.length; i++) {
+            if (minValue != null) {
+                max = Math.max(max, prices[i] - minValue);
+                if (prices[i]< minValue) {
+                    minValue = prices[i];
+                }
+            } else {
+                minValue = prices[i];
+            }
+        }
+        return max;
+    }
+
+    public int maxProfit2(int[] prices) {
+        Integer minValue = null;
+        Integer pre = null;
+        int result = 0;
+        for(int i=0; i< prices.length; i++) {
+            if (minValue != null) {
+                if (prices[i] < pre) {
+                    result += pre -minValue;
+                    minValue = prices[i];
+                }
+            } else {
+                minValue = prices[i];
+            }
+            pre = prices[i];
+        }
+        if (pre > minValue) {
+            result+= pre -minValue;
+        }
+        return result;
+    }
+
+    /**
+     * 最长增长子序列
+     * @param nums
+     * @return
+     */
+    public int findLengthOfLCIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int max = 1;
+        int index = 1;
+        for(int i=1; i< nums.length; i++) {
+            if(nums[i-1] < nums[i]) {
+                index++;
+            } else {
+                max = Math.max(max, index);
+                index=1;
+            }
+        }
+        max = Math.max(max, index);
+        return max;
+    }
 }
