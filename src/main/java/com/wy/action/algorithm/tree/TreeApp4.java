@@ -127,5 +127,39 @@ public class TreeApp4 {
 
     }
 
+    /**
+     * 二叉树中的最大路径和
+     * @param root
+     * @return
+     */
+    int maxPathSum = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        maxPathSum = Integer.MIN_VALUE;
+        int val = maxPathSumTraverse(root);
+        maxPathSum = Math.max(val, maxPathSum);
+        return maxPathSum;
+    }
 
+    private int maxPathSumTraverse(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = maxPathSumTraverse(root.left);
+        int right = maxPathSumTraverse(root.right);
+        int max = root.val;
+        if (left > 0) {
+            max += left;
+        }
+
+        if (right > 0) {
+            max += right;
+        }
+        maxPathSum = Math.max(max,maxPathSum);
+        if (left< 0 && right <0 ){
+            return root.val;
+        } else if (left> right) {
+            return left + root.val;
+        }
+        return right + root.val;
+    }
 }
