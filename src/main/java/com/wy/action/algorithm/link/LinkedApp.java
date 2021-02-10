@@ -412,4 +412,27 @@ public class LinkedApp {
         listNode = ListNode.construct(Arrays.asList(2,2,1));
         Assert.assertEquals(true, isSubPath(listNode, root));
     }
+
+    /**
+     * 判断链表中是否有环
+     * https://leetcode-cn.com/problems/linked-list-cycle/
+     * @param head
+     * @return
+     */
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        ListNode fast = head,slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+
+
+    }
 }
