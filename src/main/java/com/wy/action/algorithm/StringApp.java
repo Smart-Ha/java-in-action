@@ -403,4 +403,44 @@ public class StringApp {
         Assert.assertEquals(true, exist(board,"SEE"));
         Assert.assertEquals(false, exist(board,"ABCB"));
     }
+
+    /**
+     * 判断是为回文字符串
+     * @param s
+     * @return
+     */
+    public boolean isPalindrome(String s) {
+        s = s.toLowerCase();
+        int low = 0;
+        int high = s.length()-1;
+        while (low < high) {
+            char lowC = s.charAt(low);
+            char highC = s.charAt(high);
+            if (lowC == highC) {
+                low++;
+                high--;
+                continue;
+            }
+            if(!isValidChar(lowC)) {
+                low++;
+            } else if(!isValidChar(highC)) {
+                high--;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+
+
+    }
+
+    private boolean isValidChar(char lowC) {
+        return (lowC>='0' && lowC<='9') || lowC>='a' && lowC<='z';
+    }
+
+    @Test
+    public void isPalindromeTest2() {
+        Assert.assertEquals(true, isPalindrome("A man, a plan, a canal: Panama"));
+    }
 }
