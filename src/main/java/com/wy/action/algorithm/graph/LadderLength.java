@@ -1,5 +1,7 @@
 package com.wy.action.algorithm.graph;
 
+import org.junit.Test;
+
 import java.util.*;
 
 public class LadderLength {
@@ -70,14 +72,11 @@ public class LadderLength {
         if (wordList.size() == 0 || !wordList.contains(endWord)) {
             return result;
         }
-        // 记录已经访问过的单词
-        Set<String> visited = new HashSet<>();
         Set<String> words = new HashSet<>(wordList);
 
         // 广度优先遍历
         Queue<String> queue = new LinkedList<>();
         queue.add(beginWord);
-        visited.add(beginWord);
         int len = beginWord.length();
         boolean find = false;
 
@@ -88,7 +87,6 @@ public class LadderLength {
         map.put(beginWord, one);
 
         while (!queue.isEmpty()) {
-            List<List<String>> resultLevel = new ArrayList<>();
             int size = queue.size();
             // 每层的遍历
             for(int i=0; i< size; i++) {
@@ -104,23 +102,21 @@ public class LadderLength {
                         }
                         charArr[j] = c;
                         String s = new String(charArr);
-
-                        if (words.contains(s) && !visited.contains(s)) {
+                        if (words.contains(s) &&  !list.contains(s)) {
                             queue.add(s);
-                            visited.add(s);
                             List<String> newList = new ArrayList<>(list);
                             newList.add(s);
+                            if( endWord.equals(s)) {
+                                result.add(newList);
+                                find = true;
+                            }
+                            List<String> oldOne = map.get(s);
                             map.put(s, newList);
-                        }
-                        if( endWord.equals(s)) {
-                            result.add(map.get(s));
-                            find = true;
                         }
                         // 恢复原位
                         charArr[j] =originChar;
                     }
                 }
-                map.remove(str);
             }
 
             if (find == true) {
@@ -131,4 +127,17 @@ public class LadderLength {
         return result;
 
     }
+
+    @Test
+    public void findLaddersTest() {
+//        List<List<String>> findLadders = findLadders("red","tax", Arrays.asList("ted","tex","red","tax","tad","den","rex","pee"));
+//        System.out.println(findLadders);
+        List<List<String>> findLadders = findLadders("hit","cog", Arrays.asList("hot","dot","dog","lot","log","cog"));
+        System.out.println(findLadders);
+
+    }
+
+
+
+
 }

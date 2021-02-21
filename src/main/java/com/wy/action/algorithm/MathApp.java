@@ -64,48 +64,7 @@ public class MathApp {
         Assert.assertEquals(3, firstMissingPositive(new int[]{1, 7, 8, 9, 11, 12, 2}));
     }
 
-    /**
-     * Given n non-negative integers representing an elevation map where the width of each bar is 1,
-     * compute how much water it is able to trap after raining.
-     * https://leetcode.com/problems/trapping-rain-water/
-     *
-     * @param height
-     * @return
-     */
-    public int trap(int[] height) {
-        if (height.length < 3) return 0;
-        int result = 0;
-        int left = 0;
-        int right = height.length - 1;
-        while (left < right && height[left] < height[left + 1]) {
-            left++;
-        }
-        while (left < right && height[right] < height[right - 1]) {
-            right--;
-        }
 
-        while (left < right) {
-            int leftValue = height[left];
-            int rightValue = height[right];
-            if (leftValue <= rightValue) {
-                while (left < right && leftValue >= height[++left]) {
-                    result += leftValue - height[left];
-                }
-            } else {
-                while (left < right && rightValue >= height[--right]) {
-                    result += rightValue - height[right];
-                }
-            }
-        }
-        return result;
-    }
-
-    @Test
-    public void testTrap() {
-        Assert.assertEquals(6, trap(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
-        Assert.assertEquals(3, trap(new int[]{2, 1, 0, 2}));
-        Assert.assertEquals(14, trap(new int[]{5, 2, 1, 2, 1, 5}));
-    }
 
     /**
      * 字符串数字的乘法
