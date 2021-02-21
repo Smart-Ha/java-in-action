@@ -443,4 +443,56 @@ public class StringApp {
     public void isPalindromeTest2() {
         Assert.assertEquals(true, isPalindrome("A man, a plan, a canal: Panama"));
     }
+
+    /**
+     * 分割回文串 回溯法 O(2^n-1)
+     * https://leetcode-cn.com/problems/palindrome-partitioning/
+     */
+    public List<List<String>> partition(String s) {
+        Deque<String> stack = new ArrayDeque<String>();
+        List<List<String>> result = new ArrayList<>();
+        Map<String, Boolean> palindrome = new HashMap<>();
+        partitionTraverse(s, 0, s.length(), stack, result, palindrome);
+        return result;
+
+    }
+
+    private void partitionTraverse(String s, int start, int length, Deque<String> stack,
+                                   List<List<String>> result, Map<String, Boolean> palindrome) {
+
+        if (start == length) {
+            result.add(new ArrayList<>(stack));
+            return;
+        }
+        for(int i=start; i< length; i++) {
+            String sub = s.substring(start,i+1);
+            // 从缓存中获取回文结果
+            Boolean isPal = palindrome.get(sub);
+            if (isPal == null) {
+                isPal = palindrome(sub);
+                palindrome.put(sub, isPal);
+            }
+            // 不是回文，剪枝
+            if (!isPal) {
+                continue;
+            }
+            stack.addLast(sub);
+            partitionTraverse(s,i+1,length, stack, result, palindrome);
+            stack.removeLast();
+        }
+
+    }
+
+    private boolean palindrome(String s) {
+        int i=0;
+        int j = s.length()-1;
+        while (i<j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
 }
