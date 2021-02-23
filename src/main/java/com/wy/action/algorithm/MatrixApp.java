@@ -301,4 +301,27 @@ public class MatrixApp {
         System.out.println(subsetsWithDup(new int[]{1,2,2}));
         System.out.println(subsetsWithDup(new int[]{1,2,2,3,4,4,5}));
     }
+
+    /**
+     * 盛最多水的容器
+     * https://leetcode-cn.com/problems/container-with-most-water/
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        int max = 0;
+        for(int i=0;i<height.length-1; i++){
+            for(int j=i+1;j<height.length;j++){
+                int h = min(height[i], height[j]);
+                int area = h * (j-i);
+                if(area>max){
+                    max = area;
+                }
+            }
+        }
+        return max;
+    }
+    public int min(int a, int b) {
+        return a > b ? b : a;
+    }
 }
