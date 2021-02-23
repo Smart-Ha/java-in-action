@@ -39,14 +39,12 @@ public class LockSupportApp {
                     LockSupport.park();
                     System.out.print(i);
                     LockSupport.unpark(t1);
-
                 }
             }
         };
 
         t1.start();
         t2.start();
-
     }
 
 }

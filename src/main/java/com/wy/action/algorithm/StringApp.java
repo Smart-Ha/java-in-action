@@ -443,4 +443,58 @@ public class StringApp {
     public void isPalindromeTest2() {
         Assert.assertEquals(true, isPalindrome("A man, a plan, a canal: Panama"));
     }
+
+    /**
+     * 给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。
+     * 找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
+     * https://leetcode-cn.com/problems/surrounded-regions/
+     * @param board
+     */
+    public void solve(char[][] board) {
+        /**
+         * 找出所有与边缘O直接或者间接关联的O，并标记。
+         * 将没有标记的O置为X
+         */
+        int n = board.length;
+        if (n == 0) {
+            return;
+        }
+        int m = board[0].length;
+
+        for(int i=0; i<m; i++) {
+            //第0行
+            dfsSolve(board, n,m,0,i);
+            // 第n-1行
+            dfsSolve(board, n,m,n-1,i);
+        }
+        for(int i=0; i<n; i++) {
+            //第0行
+            dfsSolve(board, n,m,i,0);
+            // 第n-1行
+            dfsSolve(board, n,m,i,m-1);
+        }
+
+        for(int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
+                if (board[i][j] =='O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == 'A') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+
+    }
+
+    private void dfsSolve(char[][] board, int n, int m, int row, int col) {
+        if (row>=n || row<0 || col>=m || col<0 || board[row][col]!='O') {
+            return;
+        }
+        board[row][col] = 'A';
+        dfsSolve(board,n,m, row-1, col);
+        dfsSolve(board,n,m, row+1, col);
+        dfsSolve(board,n,m, row, col-1);
+        dfsSolve(board,n,m, row, col+1);
+
+    }
 }
