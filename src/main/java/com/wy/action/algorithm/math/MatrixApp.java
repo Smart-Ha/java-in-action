@@ -1,4 +1,4 @@
-package com.wy.action.algorithm;
+package com.wy.action.algorithm.math;
 
 import com.wy.action.util.Print;
 import org.junit.Assert;
@@ -323,5 +323,35 @@ public class MatrixApp {
     }
     public int min(int a, int b) {
         return a > b ? b : a;
+    }
+
+    /**
+     * 先水平翻转再求逆
+     * https://leetcode-cn.com/problems/flipping-an-image/
+     * @param A
+     * @return
+     */
+    public int[][] flipAndInvertImage(int[][] A) {
+        for(int i=0; i<A.length; i++) {
+            flip(A[i]);
+            for(int j=0; j<A[i].length; j++) {
+                A[i][j] ^= 1;
+            }
+        }
+        return A;
+    }
+
+    private void flip(int[] ints) {
+        int i=0;
+        int j = ints.length-1;
+        int temp;
+        while (i<j) {
+            temp = ints[i];
+            ints[i] = ints[j];
+            ints[j] = temp;
+            i++;
+            j--;
+        }
+
     }
 }
