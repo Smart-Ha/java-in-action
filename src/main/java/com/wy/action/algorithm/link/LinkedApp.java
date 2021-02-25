@@ -547,9 +547,40 @@ public class LinkedApp {
             current = next;
 
 
-
         }
         return newHead;
 
+    }
+
+    /**
+     * 求相交的第一个节点
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode node1 = headA, node2 = headB;
+        int idx = 0;
+        while (idx <3) {
+            if (node1 == null) {
+                node1 = headB;
+                idx ++;
+            }
+            if (node2 == null) {
+                node2 = headA;
+                idx++;
+            }
+
+            if (node1 == node2) {
+                return node1;
+            }
+            node1 = node1.next;
+            node2 = node2.next;
+
+        }
+        return null;
     }
 }

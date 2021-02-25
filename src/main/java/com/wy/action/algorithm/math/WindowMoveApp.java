@@ -98,4 +98,6 @@ public class WindowMoveApp {
         int X = 3;
         Assert.assertEquals(29, maxSatisfied(customers, grumpy, X));
     }
+
+
 }

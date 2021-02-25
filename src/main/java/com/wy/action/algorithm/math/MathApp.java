@@ -1,4 +1,4 @@
-package com.wy.action.algorithm;
+package com.wy.action.algorithm.math;
 
 import com.wy.action.util.Print;
 import org.junit.Assert;

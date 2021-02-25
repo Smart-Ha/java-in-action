@@ -556,4 +556,29 @@ public class StringApp {
         }
         return true;
     }
+
+    /**
+     * 反转字符串中的单词
+     * @param "a good   example "
+     * @return "example good a"
+     */
+    public String reverseWords(String s) {
+        String[]  word = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(int i=word.length-1; i>=0; i--) {
+            String str = word[i].trim();
+            if (!str.equals( "")) {
+                sb.append(str).append(" ");
+            }
+        }
+        return sb.toString().substring(0, sb.length()-1);
+    }
+
+    @Test
+    public void reverseWords() {
+
+        String str = "  hello world  ";
+        Assert.assertEquals("world hello", reverseWords(str));
+
+    }
 }

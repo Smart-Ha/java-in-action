@@ -392,4 +392,39 @@ public class MatrixApp {
         }
         return -1;
     }
+
+    /**
+     * 转置矩阵
+     * @param matrix
+     * @return
+     */
+    public int[][] transpose(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        int[][] res = new int[n][m];
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                res[j][i] = matrix[i][j];
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 求峰值
+     * @param nums
+     * @return
+     */
+    public int findPeakElement(int[] nums) {
+        int pre = Integer.MIN_VALUE;
+        int i=0;
+        for(; i< nums.length-1; i++) {
+            if (nums[i]> pre && nums[i]> nums[i+1]) {
+                return i;
+            }
+            pre = nums[i];
+        }
+        return nums[i]> pre ? i: 0;
+    }
 }
