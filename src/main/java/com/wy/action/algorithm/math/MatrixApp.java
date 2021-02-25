@@ -354,4 +354,42 @@ public class MatrixApp {
         }
 
     }
+
+    /**
+     * 加油站 在一条环路上有 N 个加油站，其中第 i 个加油站有汽油 gas[i] 升。
+     * gas  = [1,2,3,4,5]
+     * cost = [3,4,5,1,2]
+     * 输出: 3
+     * https://leetcode-cn.com/problems/gas-station/
+     * @param gas
+     * @param cost
+     * @return
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int len = gas.length;
+        int i=0;
+        while (i<len) {
+            int gasCount = 0;
+            int j = i;
+            while (j<len) {
+                gasCount +=  gas[j];
+                if (gasCount< cost[j]) {
+                    break;
+                } else {
+                    gasCount -= cost[j];
+                }
+                j= ++j%len;
+                if (j == i) {
+                    return i;
+                }
+            }
+            if (j>i) {
+                i = j;
+            } else {
+                i++;
+            }
+
+        }
+        return -1;
+    }
 }
