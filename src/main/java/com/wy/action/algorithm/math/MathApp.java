@@ -577,4 +577,14 @@ public class MathApp {
         return result;
     }
 
+    /**
+     * 处理除法
+     * @param numerator
+     * @param denominator
+     * @return
+     */
+    public String fractionToDecimal(int numerator, int denominator) {
+        return null;
+    }
+
 }
