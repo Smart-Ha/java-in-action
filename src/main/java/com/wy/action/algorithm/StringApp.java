@@ -581,4 +581,51 @@ public class StringApp {
         Assert.assertEquals("world hello", reverseWords(str));
 
     }
+
+    /**
+     * 比较版本号
+     * @param version1
+     * @param version2
+     * @return
+     */
+    public int compareVersion(String version1, String version2) {
+        String[]  ver1 = version1.split("\\.");
+        String[]  ver2 = version2.split("\\.");
+        int m = ver1.length;
+        int n = ver2.length;
+        int index = 0;
+        while (index< m) {
+            // 假如v1比v2长
+            int mNum = Integer.parseInt(ver1[index]);
+            int nNum;
+            if (index >= n) {
+                nNum = 0;
+            } else {
+                nNum = Integer.parseInt(ver2[index]);
+            }
+            index++;
+            if (mNum ==  nNum) {
+                continue;
+            }
+            return mNum>nNum ? 1: -1;
+        }
+        if (index >= n) {
+            return 0;
+        }
+        // 假如v2比v1长
+        while (index<n) {
+            int nNum = Integer.parseInt(ver2[index]);
+            index++;
+            if (nNum == 0) {
+                continue;
+            }
+            return -1;
+        }
+        return 0;
+    }
+    @Test
+    public void compareVersionTest() {
+        Assert.assertEquals(-1, compareVersion("0.1", "1.1"));
+    }
+
 }
