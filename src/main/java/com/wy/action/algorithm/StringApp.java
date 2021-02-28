@@ -1,5 +1,6 @@
 package com.wy.action.algorithm;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -583,6 +584,7 @@ public class StringApp {
     }
 
     /**
+<<<<<<< HEAD
      * 比较版本号
      * @param version1
      * @param version2
@@ -626,6 +628,104 @@ public class StringApp {
     @Test
     public void compareVersionTest() {
         Assert.assertEquals(-1, compareVersion("0.1", "1.1"));
+
+    }
+
+    /*
+     * excel 列名称 1A 2B  26-Z 27-AA 52-AZ 701=YZ 702=ZZ 703=AAA 703/26=27余1
+     * @param n
+     * @return
+     */
+    public String convertToTitle(int n) {
+
+        StringBuilder sb = new StringBuilder();
+        char c;
+        while (n != 0) {
+            n--;
+            int k = n%26;
+            c = (char)('A'+k);
+            sb.insert(0, c);
+            n = n/26;
+        }
+
+        return sb.toString();
+    }
+
+    @Test
+    public void convertToTitleTest() {
+
+        Assert.assertEquals("AB", convertToTitle(28));
+        Assert.assertEquals("AZ", convertToTitle(52));
+        Assert.assertEquals("ZY", convertToTitle(701));
+        Assert.assertEquals("AAA", convertToTitle(703));
+        Assert.assertEquals("AWZ", convertToTitle(1300));
+    }
+    /**
+     * excel 列名称变数字 A-1 B-2  26-Z 27-AA 52-AZ 701=YZ 702=ZZ 703=AAA 703/26=27余1
+     * @param s
+     * @return
+     */
+    public int titleToNumber(String s) {
+        int n=0;
+        for(int i=0; i<s.length(); i++) {
+            n *= 26;
+            n += s.charAt(i)-'A'+1;
+        }
+        return n;
+    }
+
+
+    /**
+     * 至少有 K 个重复字符的最长子串
+     * https://leetcode-cn.com/problems/longest-substring-with-at-least-k-repeating-characters/
+     * @param s
+     * @param k
+     * @return
+     */
+    public int longestSubstring(String s, int k) {
+        /**
+         * key: 采用分治的思路，小于K的字符，求它分割的字符串，递归去算里面满足条件的长度
+         */
+
+        return dfsSubStr(s, 0, s.length()-1, k);
+    }
+
+    private int dfsSubStr(String s, int left, int right, int k) {
+        int[] count = new int[26];
+
+        for(int j=left; j<=right; j++) {
+            count[s.charAt(j)-'a']++;
+        }
+        char split=0;
+        for(int j =0; j< count.length; j++) {
+            if (count[j]>0 && count[j]<k) {
+                split = (char) (j+'a');
+                break;
+            }
+        }
+        if (split == 0) {
+            return right - left +1;
+        }
+        int i=left;
+        int ret = 0;
+        while (i<= right) {
+            while (i<= right && s.charAt(i)== split) {
+                i++;
+            }
+
+            if (i> right) {
+                break;
+            }
+            int start = i;
+            // 这是分割的子串
+            while (i<=right && s.charAt(i) !=split) {
+                i++;
+            }
+
+            int len = dfsSubStr(s, start, i-1, k);
+            ret = Math.max(len, ret);
+        }
+        return ret;
     }
 
 }

@@ -598,4 +598,48 @@ public class MathApp {
         }
         return null;
     }
+
+    /**
+     * 处理除法
+     * @param numerator
+     * @param denominator
+     * @return
+     */
+    public String fractionToDecimal(int numerator, int denominator) {
+        return null;
+    }
+
+    /**
+     * 最大数
+     * https://leetcode-cn.com/problems/largest-number/
+     * @param nums
+     * @return
+     */
+    public String largestNumber(int[] nums) {
+        String[] numStr = new String[nums.length];
+
+        for(int i=0; i<nums.length; i++) {
+            numStr[i] = String.valueOf(nums[i]);
+        }
+        Arrays.parallelSort(numStr, new Comparator<String>() {
+           @Override
+           public int compare(String o1, String o2) {
+               return (o2+o1).compareTo(o1 + o2);
+           }
+       });
+        if (numStr[0].equals("0")) {
+            return "0";
+        }
+        StringBuilder res = new StringBuilder();
+        for(String str : numStr) {
+            res.append(str);
+        }
+        return res.toString();
+    }
+
+    @Test
+    public void largestNumberTest() {
+        int[] nums = {12,13,1,156,2,4,67,9,99,998,9981};
+        largestNumber(nums);
+    }
 }
