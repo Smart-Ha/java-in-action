@@ -2,6 +2,8 @@ package com.wy.action.algorithm.link;
 
 import com.wy.action.entity.ListNode;
 
+import java.util.Arrays;
+
 /**
  * @Author wangyong
  * @Date 2021-02-24
@@ -69,6 +71,42 @@ public class SortListApp {
             temp.next = temp2;
         }
         return flag.next;
+    }
 
+
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        if (k == 1) {
+            return nums[0];
+        }
+        int idx = 1;
+        for(int i=1;i<nums.length; i++) {
+            if (nums[i-1] == nums[i]) {
+                continue;
+            }
+            idx++;
+            if (idx == k) {
+                return nums[i];
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 判断是否为2的幂
+     * @param n
+     * @return
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n<1) {
+            return false;
+        }
+        while (n!=1) {
+            if(n%2 !=0) {
+                return false;
+            }
+            n /= 2;
+        }
+        return true;
     }
 }

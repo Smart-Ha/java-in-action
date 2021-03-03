@@ -3,6 +3,9 @@ package com.wy.action.algorithm.math;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author wangyong
  * @Date 2021-02-23
@@ -99,5 +102,28 @@ public class WindowMoveApp {
         Assert.assertEquals(29, maxSatisfied(customers, grumpy, X));
     }
 
+    /**
+     * 最大不重复子串的长度
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character,Integer> map = new HashMap<>();
+        int left =0, right=0;
+        int res = 0;
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            map.put(c, map.getOrDefault(c, 0)+1);
+            while(map.getOrDefault(c,0)>1) {
+                char d = s.charAt(left);
+                // 窗口滑动
+                map.put(d, map.getOrDefault(d, 0)-1);
+                left++;
+            }
 
+            res = Math.max(res, right - left);
+        }
+        return res;
+    }
 }

@@ -57,4 +57,65 @@ public class SortApp {
 
         return 0;
     }
+
+    /**
+     * 判断是否是单调性
+     * @param A
+     * @return
+     */
+    public boolean isMonotonic(int[] A) {
+        if (A == null || A.length <= 2) {
+            return true;
+        }
+        Boolean greater = null;
+        for(int i=1; i< A.length; i++) {
+            if (A[i] ==A[i-1]) {
+                continue;
+            }
+            boolean f = A[i] > A[i-1];
+            if (greater == null) {
+                greater = f;
+            }
+            if (greater != f) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    /**
+     * 寻找最多的元素
+     * https://leetcode-cn.com/problems/majority-element/
+     * 如果我们把众数记为 +1+1，把其他数记为 -1−1，将它们全部加起来，显然和大于 0，从结果本身我们可以看出众数比其他数多。
+     **/
+    public int majorityElement(int[] nums) {
+        Integer candidate = nums[0];
+        int count = 1;
+
+        for (int i=1; i< nums.length; i++) {
+
+            if (count == 0) {
+                candidate = nums[i];
+            }
+            count += candidate== nums[i]?1:-1;
+        }
+        return candidate;
+
+    }
+
+    /**
+     * 阶乘后的0的个数
+     * @param n
+     * @return
+     */
+    public int trailingZeroes(int n) {
+        // key 只跟2和5的对数有关，因为2总是比5多，所以只考虑5就行，有几个5就有几个零
+        int count = 0;
+        while (n>0) {
+            n /= 5;
+            count += n;
+        }
+        return count;
+    }
 }
