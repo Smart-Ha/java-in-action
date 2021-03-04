@@ -26,49 +26,50 @@ public class RestoreIpAddresses {
             return result;
         }
         String[] arr = new String[4];
-        recursion(0, s, 0, arr, result);
+        dfs(0, s, 0, arr, result);
         return result;
     }
 
-    private void recursion(int step, String s, int count,String[] arr, List<String> result) {
-        if (s.length()-count > (4-step)*3) {//有多余的
-            return ;
+    /**
+     *
+     * @param step {0,1,2,3}
+     * @param s
+     * @param index 字符串的索引
+     * @param arr 存放分解结果的
+     * @param result
+     */
+    private void dfs(int step, String s, int index, String[] arr, List<String> result) {
+        // 判断字符有剩余的情况
+        if ((4-step)*3 < s.length() - index) {
+            return;
         }
-
-        if (count == s.length()) {
+        // 结束的条件
+        if (index == s.length()) {
             if (step < 4) {
                 return;
             }
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i<4;i++) {
-                sb.append(arr[i]);
-                if (i<3){
-                    sb.append(".");
-                }
-
-            }
+            StringBuilder sb  = new StringBuilder();
+            sb.append(arr[0]).append(".");
+            sb.append(arr[1]).append(".");
+            sb.append(arr[2]).append(".");
+            sb.append(arr[3]);
             result.add(sb.toString());
             return;
         }
 
+        // 向后找3个判断是否合法，然后回溯
         for(int i=1; i<=3; i++) {
-            if (count+i> s.length()) break;
-            String temp = s.substring(count, count+i);
-            if (temp.length()>1 && temp.charAt(0) == '0') break;
+            if (index+i> s.length()) break;
+            String temp = s.substring(index,index+i);
+            // 排除首字符为0的情况
+            if (temp.length() >1 && temp.charAt(0) =='0') {
+                break;
+            }
             if (Integer.parseInt(temp)>255) {
                 continue;
             }
             arr[step] = temp;
-            recursion(step+1,s, count+i, arr, result);
+            dfs(step+1, s, index+i, arr, result);
         }
     }
-
-    @Test
-    public void  restoreIpAddressesTest() {
-        System.out.println(restoreIpAddresses("25525511135"));
-        System.out.println(restoreIpAddresses("0000"));
-        System.out.println(restoreIpAddresses("010010"));
-
-    }
-
 }
