@@ -727,4 +727,24 @@ public class StringApp {
         return ret;
     }
 
+    /**
+     * 重复的DNA序列
+     * @param s
+     * @return
+     */
+    public List<String> findRepeatedDnaSequences(String s) {
+        int L = 10;
+        Set<String> in = new HashSet<>();
+        Set<String> result = new HashSet<>();
+        for (int i=0; i<=s.length()-L; i++) {
+            String tem = s.substring(i, i+L);
+            if (in.contains(tem)) {
+                result.add(tem);
+            }
+            in.add(tem);
+        }
+        return new ArrayList<>(result);
+
+    }
+
 }

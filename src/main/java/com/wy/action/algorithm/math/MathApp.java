@@ -13,16 +13,6 @@ import java.util.*;
  */
 public class MathApp {
 
-    /**
-     * 不用乘除法，mod 求除法
-     *
-     * @param dividend
-     * @param divisor
-     * @return
-     */
-    public int divide(int dividend, int divisor) {
-        return 1;
-    }
 
     /**
      * 找出最小的正整数
@@ -643,5 +633,31 @@ public class MathApp {
         largestNumber(nums);
     }
 
+    /**
+     * 不使用乘法、除法，mod，去除法
+     * @param dividend 被除数
+     * @param divisor 除数
+     * @return
+     */
+    public int divide(int dividend, int divisor) {
+        // key 使用辗转相除法的思路, 被除数/ 2^n 得到一个商和余数
+        if (dividend == 0) {
+            return 0;
+        }
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
+        }
+        int res = 0;
+        boolean negative = (dividend ^ divisor) <0;
+        long a = Math.abs((long) dividend);
+        long b = Math.abs((long) divisor);
+        for(int i=31; i>=0; i--) {
+            if (a>>i >= b) { // divisor * 2^n + k = a
+                res += 1<<i;// 将结果加上 2^n;
+                a -= b<<i;
+            }
+        }
+        return res;
+    }
 
 }
