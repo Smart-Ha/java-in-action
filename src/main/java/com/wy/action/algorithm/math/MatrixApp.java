@@ -427,4 +427,28 @@ public class MatrixApp {
         }
         return nums[i]> pre ? i: 0;
     }
+
+    /**
+     * 旋转数组
+     * https://leetcode-cn.com/problems/rotate-array/
+     * @param nums
+     * @param k
+     */
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k%n;
+        if (k == 0) {
+            return;
+        }
+        int count = 0, index = 0;
+        int pre = nums[index];
+        int next;
+        while (count< n) {
+            index = (index+k)%n;
+            next = nums[index];
+            nums[index] = pre;
+            pre = next;
+            count++;
+        }
+    }
 }
