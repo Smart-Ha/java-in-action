@@ -284,6 +284,41 @@ public class LinkedApp {
         return head;
     }
 
+
+
+    /**
+     * 反转i-j之间的链表
+     *https://leetcode-cn.com/problems/reverse-linked-list-ii/
+     * @param head
+     * @param left
+     * @param right
+     * @return
+     */
+    public ListNode reverseBetweenII(ListNode head, int left, int right) {
+        Map<Integer,ListNode> map = new HashMap<>();
+        ListNode p = head;
+        int index = 1;
+        while (p != null) {
+            map.put(index++, p);
+            p = p.next;
+        }
+        index--;
+
+        if (right>index) {
+            right = index;
+        }
+
+        p = map.get(left-1);
+        for(int i=right; i>=left; i--) {
+            p.next = map.get(i);
+            p = p.next;
+        }
+        p.next = map.get(right+1);
+        return left == 1 ? p: head;
+
+
+    }
+
     @Test
     public void reverseBetweenTest() {
         ListNode.print(reverseBetween(ListNode.construct(Arrays.asList(1, 2, 3, 4, 5)), 2, 4));
@@ -347,6 +382,7 @@ public class LinkedApp {
                     TreeNode root = new TreeNode(i);
                     root.left = treeNode;
                     root.right = treeNode1;
+                    list.add(root);
                 }
             }
         }
@@ -599,4 +635,6 @@ public class LinkedApp {
         }
         return pre;
     }
+
+
 }

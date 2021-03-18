@@ -76,6 +76,42 @@ public class MatrixApp {
         return list;
     }
 
+
+    public List<Integer> spiralOrder2(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int t = row * col;
+        int top = 0, bottom = row-1, left = 0, right =col-1;
+        int idx = 0;
+        List<Integer> res = new ArrayList<>();
+        while(idx<t) {
+            for(int i=left; idx<t &&i<=right; i++) {
+                res.add(matrix[top][i]);
+                idx++;
+            }
+            top++;
+            // top -down
+            for(int i=top; idx<t &&i<=bottom; i++) {
+                res.add(matrix[i][right]);
+                idx++;
+            }
+            right--;
+            // right - left
+            for(int i=right; idx<t &&i>=left; i--) {
+                res.add(matrix[bottom][i]);
+                idx++;
+            }
+            bottom--;
+            // down- top
+            for(int i=bottom; idx<t &&i>=top; i--) {
+                res.add(matrix[i][left]);
+                idx++;
+            }
+            left++;
+        }
+        return res;
+    }
+
     @Test
     public void  spiralOrderTest() {
         int[][] arr = {{1,2,3,4},
@@ -83,7 +119,7 @@ public class MatrixApp {
                 {9,10,11,12}
 //                , {13,14,15,16}
         };
-        System.out.println(spiralOrder(arr));
+        System.out.println(spiralOrder2(arr));
 
     }
 

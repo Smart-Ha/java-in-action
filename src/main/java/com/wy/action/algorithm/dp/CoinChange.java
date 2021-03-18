@@ -100,4 +100,26 @@ public class CoinChange {
         System.out.println(getMinCount(arr, 14));
         System.out.println(getMinCount2(arr1, 21));
     }
+
+    /**
+     * 零钱兑换 https://leetcode-cn.com/problems/coin-change
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int coinChange(int[] coins, int amount) {
+        int max = amount +1;
+        // 表示 数额为i是最小的个数为count[i] 转移方程为 Math.min(dp[i], dp[i - coins[j]] + 1)
+        int[] count = new int[amount+1];
+        Arrays.fill(count, max);
+        count[0] = 0;
+        for(int i=1; i<=amount; i++) {
+            for (int j=0; j< coins.length; j++) {
+                if (coins[j] <= i) {
+                    count[i] = Math.min(count[i], count[i- coins[j]] +1);
+                }
+            }
+        }
+        return count[amount] > amount? -1: count[amount];
+    }
 }

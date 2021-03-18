@@ -1,12 +1,14 @@
-package com.wy.action.concurrent.queue;
+package com.wy.action.algorithm.datastructure;
 
+
+import com.wy.action.concurrent.queue.IQueue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class LinkedBlockingQueue<T> implements IQueue<T>{
+public class LinkedBlockingQueue<T> implements IQueue<T> {
 
     protected final Lock lock = new ReentrantLock();
     /**
