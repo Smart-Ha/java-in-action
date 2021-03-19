@@ -42,21 +42,22 @@ public class LFUCache {
     }
 
     public void put(int key, int val) {
+        // 存在元素，增加频率
         if (key2Val.containsKey(key)) {
             key2Val.put(key, val);
             // 增加频率
             incrFreq(key);
             return;
         }
-
+        // 超过当前容量，移除最小频率的key
         if (key2Val.size() >= capacity) {
             removeMinFreqKey();
         }
 
         key2Val.put(key, val);
         key2Freq.put(key, 1);
-        freq2Keys.putIfAbsent(key, new LinkedHashSet<>());
-        freq2Keys.get(key).add(key);
+        freq2Keys.putIfAbsent(1, new LinkedHashSet<>());
+        freq2Keys.get(1).add(key);
         minFreq = 1;
 
     }
@@ -82,8 +83,8 @@ public class LFUCache {
         freq2Keys.putIfAbsent(freq+1, new LinkedHashSet<>());
         freq2Keys.get(freq+1).add(key);
         freq2Keys.get(freq).remove(key);
-        if (freq2Keys.get(key).isEmpty()) {
-            freq2Keys.remove(key);
+        if (freq2Keys.get(freq).isEmpty()) {
+            freq2Keys.remove(freq);
             if (minFreq == freq) {
                 minFreq ++;
             }
