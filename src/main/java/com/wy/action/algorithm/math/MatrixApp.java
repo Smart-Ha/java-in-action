@@ -4,9 +4,7 @@ import com.wy.action.util.Print;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author wangyong
@@ -486,5 +484,30 @@ public class MatrixApp {
             pre = next;
             count++;
         }
+    }
+
+    /**
+     * 最长连续序列
+     * @param nums
+     * @return
+     */
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int i=0; i< nums.length; i++) {
+            set.add(nums[i]);
+        }
+        int res = 0;
+        for(Integer num: set) {
+            if (!set.contains(num-1)) {
+                int curr = num;
+                int count = 0;
+                while (set.contains(curr)) {
+                    count++;
+                    curr++;
+                }
+                res = Math.max(res, count);
+            }
+        }
+        return res;
     }
 }
