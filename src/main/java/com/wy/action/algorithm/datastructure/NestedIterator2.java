@@ -16,8 +16,8 @@ public class NestedIterator2 implements Iterator<Integer> {
     public boolean hasNext() {
         while (!list.isEmpty() && !list.get(0).isInteger()) {
             List<NestedInteger> nestedInteger = list.remove(0).getList();
-            for (NestedInteger integer: nestedInteger) {
-                list.addFirst(integer);
+            for (int i=nestedInteger.size()-1; i>=0; i--) {
+                list.addFirst(nestedInteger.get(i));
             }
         }
         return !list.isEmpty();

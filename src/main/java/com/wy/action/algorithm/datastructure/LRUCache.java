@@ -31,7 +31,7 @@ public class LRUCache {
 
     private int size ;
     /**
-     * 设计一个最近最少使用的缓存， 使用哈希表和双端队列
+     * 设计一个最近最久未使用的缓存， 使用哈希表和双端队列
      * @param capacity
      */
 
