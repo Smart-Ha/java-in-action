@@ -636,5 +636,29 @@ public class LinkedApp {
         return pre;
     }
 
+    /**
+     * 删除给定元素
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode node = new ListNode(-1);
+        node.next = head;
+        ListNode curr = head,pre = node;
+        while (curr != null) {
+            ListNode next = curr.next;
+            if (curr.val == val) {
+                pre.next = next;
+                // gc回收
+                curr.next = null;
+                curr = next;
+                continue;
+            }
+            pre = curr;
+            curr = next;
+        }
+        return node.next;
+    }
 
 }

@@ -660,4 +660,88 @@ public class MathApp {
         return res;
     }
 
+    /**
+     * 快乐数
+     * @param n
+     * @return
+     */
+    public boolean isHappy(int n) {
+        int curr = n;
+        Set<Integer> set = new HashSet<>();
+        while (set.add(curr)) {
+            int k = 0;
+            while (curr >0 ) {
+                int p = curr%10;
+                k+= p*p;
+                curr /= 10;
+            }
+            if (k==1) {
+                return true;
+            }
+            curr = k;
+        }
+        return false;
+    }
+
+    /**
+     * 计算质数的个数
+     * @param n
+     * @return
+     */
+    public int countPrimes(int n) {
+        int res = 0;
+        for (int i=2; i<n; i++) {
+            boolean is = true;
+            for(int j=2; j*j<=i; j++) {
+                if (i%j == 0) {
+                    is = false;
+                    continue;
+                }
+            }
+            if (is) {
+                res++;
+            }
+
+        }
+        return res;
+    }
+
+    /**
+     * 字符串相加
+     * https://leetcode-cn.com/problems/add-strings/
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String addStrings(String num1, String num2) {
+        int m = num1.length()-1;
+        int n = num2.length()-1;
+        StringBuilder sb = new StringBuilder();
+        int flag = 0;
+        while (m>=0 && n>=0) {
+            int n1 = num1.charAt(m) -'0';
+            int n2 = num2.charAt(n) -'0';
+            int k = n1+n2+flag;
+            sb.insert(0, k%10);
+            flag = k/10;
+            m--;
+            n--;
+        }
+        while (m>=0) {
+            int n1 = num1.charAt(m) -'0';
+            int k = n1+flag;
+            sb.insert(0, k%10);
+            flag = k/10;
+            m--;
+        }
+        while (n>=0) {
+            int n1 = num2.charAt(n) -'0';
+            int k = n1+flag;
+            sb.insert(0, k%10);
+            flag = k/10;
+            n--;
+        }
+        return sb.toString();
+    }
+
 }
