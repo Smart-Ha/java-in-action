@@ -744,4 +744,28 @@ public class MathApp {
         return sb.toString();
     }
 
+    /**
+     * 存在重复元素 II
+     * https://leetcode-cn.com/problems/contains-duplicate-ii/
+     * @param nums
+     * @param k
+     * @return
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        int n = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i=0; i< n; i++) {
+            Integer integer = map.get(nums[i]);
+            if (integer == null) {
+                map.put(nums[i], i);
+                continue;
+            }
+            if (i-integer<=k) {
+                return true;
+            }
+            map.put(nums[i], i);
+
+        }
+        return false;
+    }
 }
